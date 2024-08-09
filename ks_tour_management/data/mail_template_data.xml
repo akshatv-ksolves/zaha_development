@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="0">
+
+        <!--        Tour Quotation Mail         -->
+        <record id="tour_quotation_mail_template" model="mail.template">
+            <field name="name">Tour Quotation</field>
+            <field name="model_id" ref="bi_tour_management.model_custom_tour_itinary"/>
+            <field name="subject">
+                Your Dream Vacation to Maldives / Ref.#{{object.tour_preference_id.name}}
+<!--                Your Dream Vacation to {{object.tour_destination_ids.destination_id[0].name}} /-->
+<!--                Ref.#{{object.tour_preference_id.name}}-->
+            </field>
+            <field name="partner_to">${user.email_formatted}</field>
+            <field name="email_to">{{object.email_id}}</field>
+            <field name="body_html" type="html">
+                <div>
+                    <t t-set="location"
+                       t-value="object.tour_destination_ids.destination_id[0].name"/>
+                    <!--                    " ' '.join([line.destination_id.name for line in object.tour_destination_ids])"-->
+                    <p>Dear <span t-esc="object.contact_name"/>,
+                    </p>
+                    <p>Thank you for considering Zaha Travels as your go-to travel agency for your upcoming trip to
+                        Maldives. We are excited to assist you in planning a memorable and seamless
+                        vacation experience.
+                    </p>
+
+                    <div>
+                        <h2>Package Details</h2>
+                        <p>
+                            <strong>Arrival date:</strong>
+                            <t t-esc="object.start_date"/>
+                        </p>
+                        <p>
+                            <strong>Departure date:</strong>
+                            xxx
+                        </p>
+                        <p>
+                            <strong>Duration:</strong>
+                            <t t-esc="object.total_days_number"/>
+                            Days
+                        </p>
+                        <p>
+                            <strong>Accommodation:</strong>
+                            <t t-foreach="object.hotel_planer_ids" t-as="line">
+                                <span t-esc="line.room_type_id.name"/>
+                            </t>
+                        </p>
+                        <p>
+                            <strong>Property:</strong>
+                            <t t-foreach="object.hotel_planer_ids" t-as="line">
+                                <span t-esc="line.hotel_id.name"/>
+                            </t>
+                        </p>
+                        <p>
+                            <strong>Meal Plan:</strong>
+                            <t t-foreach="object.tour_program_ids" t-as="line">
+                                <t t-if="line.breakfast">
+                                    <span>Breakfast</span>
+                                </t>
+                                <t t-if="line.lunch">
+                                    <span>Lunch</span>
+                                </t>
+                                <t t-if="line.dinner">
+                                    <span>Dinner</span>
+                                </t>
+                            </t>
+                        </p>
+                    </div>
+
+                    <div>
+                        <h2>Inclusions</h2>
+                        <ul>
+                            <t t-foreach="object.itinary_cost_include_facility_lines" t-as="line">
+                                <li>
+                                    <span t-esc="line.name"/>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+
+                    <p>
+                        <strong>Total Package Rate:</strong>
+                        <t t-esc="object.sale_total_amt"/>
+                        per person
+                    </p>
+                    <p>Please note that airfare is not included in the package rate.</p>
+
+                    <p>If you have any specific requirements or would like to customize the package further, feel free
+                        to let us know. We are here to ensure that your trip is tailored to meet all your expectations.
+                        Rates may be subject to change in accordance with the terms and conditions of the accommodation
+                        providers if modifications are made to the booking dates.
+                    </p>
+
+                    <p>We look forward to hearing from you and helping you plan an unforgettable vacation in the
+                        <t t-esc="location"/>.
+                    </p>
+
+                    <div>
+                        <p>Best regards,</p>
+                        <p>Zaha Travels Team</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+
+        <!--        Tour Confirm mail with payment link-->
+        <record id="tour_confirm_mail_template" model="mail.template">
+            <field name="name">Tour Confirm Mail</field>
+            <field name="model_id" ref="bi_tour_management.model_tour_booking"/>
+            <field name="subject">
+                Booking Confirmation for Your
+                <!--                {{object.tour_destination_book_ids.destination_id[0].name}} Trip with Zaha-->
+                <!--                Travels / Ref #{{object.name}}-->
+            </field>
+            <field name="partner_to">${user.email_formatted}</field>
+            <field name="email_to">{{object.email_id}}</field>
+            <field name="body_html" type="html">
+                <div class="container">
+                    <t t-set="location"
+                       t-value=" ' '.join([line.destination_id.name for line in object.tour_destination_book_ids])"/>
+                    <p>Dear<span t-esc="object.customer_id.name"/>,
+                    </p>
+                    <p>We are excited to inform you that your booking to the breathtaking destination of
+                        <t t-esc='location'/>
+                        through Zaha Travels has been confirmed!
+                    </p>
+
+                    <div class="details">
+                        <h2>Booking Details</h2>
+                        <p>
+                            <strong>Booking Reference:</strong>
+                            <t t-esc="object.name"/>
+                        </p>
+                        <p>
+                            <strong>Travel Dates:</strong>
+                            <span t-esc="object.tour_dates_id.start_date"/>
+                            to [Departure Date]
+                        </p>
+                        <p>
+                            <strong>Package Type:</strong>
+                            <t t-esc="object.tour_id.name"/>
+                        </p>
+                        <p>
+                            <strong>Total Amount:</strong>
+                            <t t-esc="object.total_amt"/>
+                        </p>
+                        <p>
+                            <strong>Due Date:</strong>
+                            <t t-foreach="object.tour_dates_id" t-as="line">
+                                <t t-esc="line.due_date"/>
+                            </t>
+                        </p>
+                    </div>
+
+                    <div class="bank-details">
+                        <h2>Payment Details</h2>
+                        <p>
+                            <strong>Account Name:</strong>
+                            Zaha Residence and Hotels Pvt Ltd
+                        </p>
+                        <p>
+                            <strong>Account number (USD):</strong>
+                            7770 000064 251
+                        </p>
+                        <p>
+                            <strong>Bank Name:</strong>
+                            Bank of Maldives
+                        </p>
+                        <p>
+                            <strong>Bank Address:</strong>
+                            11 Boduthakurufaanu Magu, Male, Maldives
+                        </p>
+                        <p>
+                            <strong>SWIFT Code:</strong>
+                            MALBMVMV
+                        </p>
+                        <p>
+                            <strong>Company Name:</strong>
+                            Zaha Residence and Hotels Pvt Ltd
+                        </p>
+                        <p>
+                            <strong>Company Address:</strong>
+                            3rd Floor, Ma. Elysium, Buruzu Magu, Male, Maldives
+                        </p>
+                    </div>
+
+                    <p>Alternatively, you can click on this link <a href="[payment link]" class="btn">Process your
+                        payment securely online
+                    </a> to process your payment securely online.
+                    </p>
+
+                    <p>Once the payment is confirmed, we will send you the payment receipt. Rates may be subject to
+                        change in accordance with the terms and conditions of the accommodation providers if
+                        modifications are made to the booking dates or if payment is processed after the due date.
+                    </p>
+
+                    <p>If you have any questions or need further assistance, feel free to reach out.</p>
+
+                    <p>Thank you for choosing Zaha Travels for your vacation. We can't wait to make your trip a
+                        memorable experience!
+                    </p>
+
+                    <div class="footer">
+                        <p>Best regards,</p>
+                        <p>Zaha Travels Team</p>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+
+        <!--        Tour Booking successfull mail after payment-->
+        <record id="payment_done_mail_template" model="mail.template">
+            <field name="name">Tour Booking Confirmation</field>
+            <field name="model_id" ref="bi_tour_management.model_tour_booking"/>
+            <field name="subject">
+                Booking Confirmation / Ref {{object.name}}
+            </field>
+            <field name="partner_to">${user.email_formatted}</field>
+            <field name="email_to">{{object.email_id}}</field>
+            <field name="report_template_ids" eval="[(4, ref('bi_tour_management.action_report_tour_booking'))]"/>
+            <field name="body_html" type="html">
+                <p>Dear<span t-esc="object.customer_id.name"/>,
+                </p>
+                <p>I am writing to inform you that we have successfully received your payment. Please find attached
+                    the Booking Confirmation for your reference.
+                </p>
+                <p>Should you have any questions or need further assistance, please do not hesitate to contact us.
+                </p>
+                <p>Best regards,<br/>Zaha Travels Team
+                </p>
+            </field>
+        </record>
+
+
+        <!--        Tour Follow Up Mail -->
+        <record id="follow_up_mail_template" model="mail.template">
+            <field name="name">Follow Up Mail</field>
+            <field name="model_id" ref="bi_tour_management.model_tour_booking"/>
+            <field name="subject">
+                Your Ultimate {{object.tour_destination_book_ids.destination_id[0].name}} Experience with Zaha Travels /
+                Ref {{object.name}}
+            </field>
+            <field name="partner_to">${user.email_formatted}</field>
+            <field name="email_to">{{object.email_id}}</field>
+            <field name="body_html" type="html">
+                <t t-set="location"
+                   t-value=" ' '.join([line.destination_id.name for line in object.tour_destination_book_ids])"/>
+                <p>Dear<span t-esc="object.customer_id.name"/>,
+                </p>
+                <p>Thank you for choosing Zaha Travels for your
+                    <t t-esc='location'/>
+                    getaway. We are delighted to have you as our guest and hope you are enjoying every moment of
+                    your holiday in this paradise destination.
+                </p>
+                <p>As part of our commitment to ensuring your trip is seamless and memorable, we want to ensure that
+                    everything is going smoothly. If there are any concerns or if you need any additional support
+                    during your stay, please do not hesitate to reach out to us.
+                </p>
+                <p>Should you require any further information or assistance, feel free to contact us at [contact
+                    email/phone number].
+                </p>
+                <p>We sincerely hope that your time in the
+                    <t t-esc='location'/>
+                    is enriching and unforgettable. Thank you once again for choosing Zaha Travels.
+                </p>
+                <p>Best regards,<br/>Zaha Travels Team
+                </p>
+            </field>
+        </record>
+
+        <!--        Customer Feedback Mail -->
+        <record id="customer_feedback_mail_template" model="mail.template">
+            <field name="name">Customer Feedback Mail</field>
+            <field name="model_id" ref="bi_tour_management.model_tour_booking"/>
+            <field name="subject">
+                Your Recent {{object.tour_destination_book_ids.destination_id[0].name}} Trip with Zaha Travels
+            </field>
+            <field name="partner_to">${user.email_formatted}</field>
+            <field name="email_to">{{object.email_id}}</field>
+            <field name="body_html" type="html">
+                <t t-set="location"
+                   t-value=" ' '.join([line.destination_id.name for line in object.tour_destination_book_ids])"/>
+                <p>Dear<span t-esc="object.customer_id.name"/>,
+                </p>
+                <p>We hope this email finds you well. Thank you once again for choosing Zaha Travels for your recent
+                    holiday in the<t t-esc='location'/>. We trust that you had a wonderful time experiencing the beauty
+                </p>
+                <p>As part of our commitment to providing exceptional service, we kindly ask for your feedback on your
+                    trip. Your insights are invaluable to us as we strive to enhance our services and create memorable
+                    experiences for all our guests.
+                </p>
+                <p>Please take a few moments to share your thoughts by completing our short feedback survey <a
+                        href="[link]">here</a>. Your input will help us continue improving our offerings and tailor
+                    future trips according to your preferences.
+                </p>
+                <p>Should you require any assistance or wish to discuss any aspect of your trip further, please do not
+                    hesitate to reach out.
+                </p>
+                <p>Thank you once again for choosing Zaha Travels. We look forward to welcoming you back on another
+                    adventure soon!
+                </p>
+                <p>Best regards,<br/>Zaha Travels Team
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

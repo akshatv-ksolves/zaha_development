@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="hotel_reservation_form_inherit" model="ir.ui.view">
+        <field name="name">hotel.reservation.form.inherit</field>
+        <field name="model">tour.hotel.reservation</field>
+        <field name="inherit_id" ref="bi_tour_management.bi_view_tour_hotel_reservation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/field[@name='email_id']" position="after">
+                <field name="country_id"/>
+            </xpath>
+            <xpath expr="//field[@name='no_of_days']" position="after">
+                <field name="program_ids" invisible="1"/>
+                <field name="program_id" domain="[('id','in',program_ids)]"/>
+<!--                <field name="offer_id" readonly="state not in ('draft')"/>-->
+<!--                <field name="discount_coupon"/>-->
+<!--                <field name="discounted_price"/>-->
+            </xpath>
+            <xpath expr="//field[@name='room_type_id']" position="after">
+                <field name="pricelist_name"/>
+            </xpath>
+            <xpath expr="//notebook/page[1]" position="after">
+                <page string="Extra Cost">
+                    <field name="extra_cost_lines">
+                        <tree editable="bottom">
+                            <control>
+                                <create name="add_line_control" string="Add a line"/>
+                                <create name="add_section_control" string="Add a section"/>
+                            </control>
+                            <field name="name"/>
+                            <field name="product_uom_qty"/>
+                            <field name="description"/>
+                            <field name="price"/>
+                            <field name="sub_total"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <!--            <xpath expr="//field[@name='untax_amt']" position="replace">-->
+            <!--                <field name="untax_amt"/>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_seasonal_offer_form" model="ir.ui.view">
+        <field name="name">view.seasonal.offer.form</field>
+        <field name="model">seasonal.offer</field>
+        <field name="arch" type="xml">
+            <form string="Seasonal Offer">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="discount_coupon"/>
+                            <field name="booking_date_from" string="Booking Dates" widget="daterange"
+                                   options="{'end_date_field': 'booking_date_to'}"/>
+                            <field name="booking_date_to" invisible="1"/>
+                            <field name="compute_price"
+                                   string="Computation"
+                                   widget="radio"/>
+
+                            <field name="offer_rate" widget="monetary"
+                                   invisible="compute_price != 'fixed'"/>
+                            <label for="offer_percentage" string="Discount Percent"
+                                   invisible="compute_price != 'percentage'"/>
+                            <div class="o_row" invisible="compute_price != 'percentage'">
+                                <field name="offer_percentage" class="oe_inline"
+                                       invisible="compute_price != 'percentage'"/>%
+                            </div>
+                        </group>
+                        <group>
+                            <field name="hotel_id" widget="many2many_tags"/>
+                            <field name="season_id"/>
+                            <field name="stay_date_from" string="Stay Dates" widget="daterange"
+                                   options="{'end_date_field': 'stay_date_to'}"/>
+                            <field name="stay_date_to" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Room Rate Sheet">
+                            <field name="rate_sheet">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="min_qty"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Terms and Conditions">
+                            <field name="terms_n_conditions"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+    <record id="view_seasonal_offer_tree" model="ir.ui.view">
+        <field name="name">view.seasonal.offer.tree</field>
+        <field name="model">seasonal.offer</field>
+        <field name="arch" type="xml">
+            <tree string="Seasonal Offer">
+                <field name="name" select="1"/>
+                <field name="booking_date_to" select="1"/>
+                <field name="booking_date_from" select="1"/>
+                <field name="stay_date_from" select="1"/>
+                <field name="stay_date_to" select="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_seasonal_offer"
+            model="ir.actions.act_window">
+        <field name="name">Seasonal Offer</field>
+        <field name="res_model">seasonal.offer</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_offers"
+              parent="bi_tour_management.menu_tour"
+              name="Offers"
+              sequence="10"
+    />
+    <menuitem id="menu_seasonal_offer"
+              parent="ks_tour_management.menu_offers"
+              name="Seasonal Offer"
+              sequence="10"
+              action="action_seasonal_offer"
+    />
+</odoo>
