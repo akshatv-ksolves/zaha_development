@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="bi_view_partner_inherit_form" model="ir.ui.view">
+			<field name="name">bi.view.partner.inherit.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<!-- <xpath expr="//sheet" position="before"> -->
+				<xpath expr="//sheet" position="before">
+				<header>
+					<button string="Tour Booking" name="bi_tour_management.action_tour_booking_wizard" class="oe_highlight"
+							type="action"/>
+				</header>
+				</xpath>
+				
+				<xpath expr="//notebook/page[@name='internal_notes']"
+					position="after">
+					<page string="Tour History" name="tour_history">
+						<field name="tour_partner_history_ids" />
+					</page>
+				</xpath>
+				<xpath
+					expr="//notebook/page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='purchase']"
+					position="inside">
+					<field name="agent" />
+					<field name="is_hotel" />
+					<field name="hotel_type_id" readonly="is_hotel == False" />
+				</xpath>
+				<notebook position="inside">
+					<page invisible = "agent == False" string="Commission">
+						<field name="commisision_ids">
+							<tree>
+								<field name="tour_package_id" />
+								<field name="commission_percentage" />
+							</tree>
+							<form>
+								<group>
+									<group>
+										<field name="tour_package_id" />
+										<field name="commission_percentage" />
+									</group>
+									<group>
+										<field name="name"/>
+									</group>
+								</group>
+							</form>
+						</field>
+					</page>
+				</notebook>
+			</field>
+		</record>
+
+		
+	</data>
+</odoo>

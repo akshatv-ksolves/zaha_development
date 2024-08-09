@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<menuitem id="passport_schemes" parent="bi_tour_management.menu_visa"
+			name="Passport Schemes" />
+			
+		<record id="bi_view_service_scheme_tree" model="ir.ui.view">
+			<field name="name">bi.view.service.scheme.tree</field>
+			<field name="model">service.scheme</field>
+			<field name="arch" type="xml">
+
+				<tree string="Service Scheme" editable="top">
+					<field name="name" />
+					<field name="duration" />
+					<field name="service_cost" />
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="action_service_scheme" model="ir.actions.act_window">
+			<field name="name">Passport Schemes</field>
+			<field name="res_model">service.scheme</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<menuitem id="submenu_passport_schemes" parent="bi_tour_management.passport_schemes"
+			action="action_service_scheme" />
+
+
+	</data>
+</odoo>

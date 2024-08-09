@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_tour_packages_info_tree" model="ir.ui.view">
+			<field name="name">bi.view.tour.packages.info.tree</field>
+			<field name="model">tour.package.info</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="package_type_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="bi_view_tour_packages_info_form" model="ir.ui.view">
+			<field name="name">bi.view.tour.packages.info.form</field>
+			<field name="model">tour.package.info</field>
+			<field name="arch" type="xml">
+				<form string="Tour Packages">
+					<group colspan="4" col="6">
+						<field name="package_type_id" />
+						<field name="name" />
+					</group>
+					<notebook colspan="6">
+						<page string="Tour Information">
+							<group col="7" colspan="3">
+								<field name="tour_line_ids" nolabel="1" />
+
+							</group>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_tour_packages_info" model="ir.actions.act_window">
+			<field name="name">Tour Packages</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.package.info</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		
+
+	</data>
+</odoo>

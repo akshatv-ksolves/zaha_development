@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_transport_booking" model="ir.actions.report">
+            <field name="name">Transport Booking PDF</field>
+            <field name="model">transport.booking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bi_tour_management.transport_booking_report</field>
+            <field name="report_file">bi_tour_management.transport_booking_report</field>
+            <field name="print_report_name">('Transport Booking PDF')</field>
+            <field name="binding_model_id" ref="model_transport_booking"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- main menu -->
+		<menuitem name="Tour" id="menu_tour"
+			web_icon="bi_tour_management,static/description/icon.png" />
+
+		<!-- first menu -->
+		<menuitem id="submenu_tour" parent="bi_tour_management.menu_tour" name="Tour" sequence="1"/>
+		<menuitem id="submenu_tour_configuration" parent="bi_tour_management.submenu_tour"
+			name="Tour Configuration" />
+		<menuitem id="submenu_hotel" parent="bi_tour_management.menu_tour"
+			name="Hotel" sequence="1" />
+		<menuitem id="submenu_custom_tour" parent="bi_tour_management.menu_tour"
+			name="Custom Tour" sequence="3"/>
+		<menuitem id="submenu_transport" parent="bi_tour_management.menu_tour"
+			name="Transport" sequence="4"/>
+		<menuitem id="submenu_insurance" parent="bi_tour_management.menu_tour"
+			name="Insurance" sequence="5"/>
+		<menuitem id="submenu_agent_commission" parent="bi_tour_management.menu_tour"
+			name="Agent Commission" sequence="6"/>
+
+		
+
+
+
+		<!-- <menuitem -->
+		<!-- id="submenu_tour_configuration_tour_package" -->
+		<!-- parent="bi_tour_management.submenu_tour_configuration" -->
+		<!-- /> -->
+		<!-- <menuitem -->
+		<!-- id="submenu_tour_configuration_tour_season" -->
+		<!-- parent="bi_tour_management.submenu_tour_configuration" -->
+		<!-- /> -->
+		<!-- <menuitem -->
+		<!-- id="submenu_tour_configuration_tour_destinations" -->
+		<!-- parent="bi_tour_management.submenu_tour_configuration" -->
+		<!-- /> -->
+		<!-- <menuitem -->
+		<!-- id="submenu_tour_configuration_tour_facilities" -->
+		<!-- parent="bi_tour_management.submenu_tour_configuration" -->
+		<!-- /> -->
+		<!-- <menuitem -->
+		<!-- id="submenu_tour_configuration_payment_policy" -->
+		<!-- parent="bi_tour_management.submenu_tour_configuration" -->
+		<!-- /> -->
+		<!-- <menuitem -->
+		<!-- id="submenu_tour_configuration_tour_deduction_policy" -->
+		<!-- parent="bi_tour_management.submenu_tour_configuration" -->
+		<!-- /> -->
+
+	</data>
+</odoo>

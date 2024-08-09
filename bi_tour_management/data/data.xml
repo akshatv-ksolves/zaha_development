@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+
+		<record id="product_category_1" model="product.category">
+			<field name="name">Transport Service Type</field>
+		</record>
+
+		<record id="product_category_2" model="product.category">
+			<field name="name">Hotel Service</field>
+		</record>
+		<record id="product_category_3" model="product.category">
+			<field name="name">Visa Services</field>
+		</record>
+		<record id="product_category_4" model="product.category">
+			<field name="name">Passport Services</field>
+		</record>
+		<record id="product_category_5" model="product.category">
+			<field name="name">Room Types</field>
+		</record>
+		<record id="product_category_6" model="product.category">
+			<field name="name">Sites</field>
+		</record>
+
+		<record id="product_category_7" model="product.category">
+			<field name="name">Tour Services</field>
+		</record>
+
+		<record id="product_product_1" model="product.product">
+			<field name="name">Passport</field>
+			<field name="type">service</field>
+			<field name="categ_id" ref="product_category_1"></field>
+		</record>
+
+		<record id="product_product_2" model="product.product">
+			<field name="name">Train</field>
+			<field name="type">service</field>
+			<field name="categ_id" ref="product_category_1"></field>
+		</record>
+
+		<record id="product_product_3" model="product.product">
+			<field name="name">Bus</field>
+			<field name="type">service</field>
+			<field name="categ_id" ref="product_category_1"></field>
+		</record>
+
+
+		<record id="tour_season_1" model="tour.season">
+			<field name="name">Winter</field>
+			<field name="code">WT</field>
+		</record>
+
+		<record id="tour_season_2" model="tour.season">
+			<field name="name">Summer</field>
+			<field name="code">SR</field>
+		</record>
+
+		<record id="tour_season_3" model="tour.season">
+			<field name="name">Spring</field>
+			<field name="code">SG</field>
+		</record>
+
+		<record id="tour_package_type_1" model="tour.package.type">
+			<field name="name">Singapore</field>
+			<field name="code">SG</field>
+		</record>
+		<record id="tour_package_type_2" model="tour.package.type">
+			<field name="name">Ahm-Thailand</field>
+			<field name="code">AT</field>
+		</record>
+		<record id="tour_package_type_3" model="tour.package.type">
+			<field name="name">Ahm-Goa</field>
+			<field name="code">AG</field>
+		</record>
+		<record id="tour_package_type_4" model="tour.package.type">
+			<field name="name">Mumbai-Dubai</field>
+			<field name="code">MD</field>
+		</record>
+
+		<!-- passport related data -->
+		<record id="service_scheme_1" model="service.scheme">
+			<field name="name">Urgency Quota</field>
+			<field name="duration">15</field>
+			<field name="service_cost">3000</field>
+		</record>
+
+		<record id="service_scheme_2" model="service.scheme">
+			<field name="name">Regular</field>
+			<field name="duration">45</field>
+			<field name="service_cost">1000</field>
+		</record>
+
+		<record id="visa_scheme_1" model="visa.scheme">
+			<field name="name">Tourist Visa(Single Entry)</field>
+			<field name="duration">15</field>
+			<field name="cost_price">500.00</field>
+			<field name="service_cost">1000</field>
+		</record>
+
+		<record id="visa_scheme_2" model="visa.scheme">
+			<field name="name">Tourist Visa(Multiple Entry)</field>
+			<field name="duration">15</field>
+			<field name="cost_price">2000.00</field>
+			<field name="service_cost">3000</field>
+		</record>
+
+		<record id="product_product_8" model="product.product">
+			<field name="name">Visa</field>
+			<field name="type">service</field>
+			<field name="categ_id" ref="bi_tour_management.product_category_3"></field>
+		</record>
+
+
+	</data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<menuitem id="submenu_configuration" parent="bi_tour_management.menu_tour"
+			name="Configuration" sequence="8"/>
+		<menuitem id="submenu_tour_configuration" parent="bi_tour_management.submenu_configuration"
+			name="Tour Configuration" />
+
+		<record id="bi_view_tour_deduction_policy_tree" model="ir.ui.view">
+			<field name="name">bi.view.tour.deduction.policy.tree</field>
+			<field name="model">tour.deduction.policy</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Deduction Policy" editable="top">
+					<field name="name" />
+					<field name="max_limit" />
+					<field name="deduction_percentage" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="action_tour_deduction_policy" model="ir.actions.act_window">
+			<field name="name">Tour Deduction Policy</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.deduction.policy</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<menuitem id="submenu_tour_deduction_policy"
+			parent="bi_tour_management.submenu_tour_configuration" 
+			action="action_tour_deduction_policy" />
+
+	</data>
+</odoo>

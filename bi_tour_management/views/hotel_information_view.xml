@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+
+		<menuitem id="submenu_hotel_configuration" parent="bi_tour_management.submenu_configuration"
+			name="Hotel Configuration" />
+		<menuitem id="submenu_hotel" parent="bi_tour_management.menu_tour"
+			name="Hotel" sequence="3"/>
+
+
+		<record id="bi_view_hotel_information_tree" model="ir.ui.view">
+			<field name="name">bi.view.hotel_information.tree</field>
+			<field name="model">hotel.information</field>
+			<field name="arch" type="xml">
+				<tree string="Hotel Information">
+					<field name="hotel_partner_id"  />
+					<field name="hotel_type_id" />
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+		<record id="bi_view_hotel_information_form" model="ir.ui.view">
+			<field name="name">bi.view.hotel_information.form</field>
+			<field name="model">hotel.information</field>
+			<field name="arch" type="xml">
+				<form string="Hotel Information">
+					<header>
+						<button string="Confirm" name="confirm_info" invisible="state not in ('draft')"
+							type="object"  />
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+					</header>
+					<sheet>
+						<group colspan="4" col="6">
+
+							<field name="hotel_partner_id" select="1"
+								domain="[('is_hotel','=',True)]" />
+							<field name="hotel_type_id" />
+							<field name="name" />
+							<field name ="company_id"/>
+						</group>
+						<separator colspan="6" string="Other Information" />
+						<notebook colspan="4">
+							<page string="Room Information">
+								
+								<field name="room_info_ids" select="1" nolabel="1"
+									>
+									<tree editable="top">
+										<field name="room_type_id" />
+										<field name="name" />
+										<field name="cost_price" />
+										<field name="sale_price" />
+									</tree>
+								</field>
+								
+							</page>
+							<page string="Service Information">
+								
+								<field name="hotel_service_ids" select="1" nolabel="1"
+									>
+									<tree editable="top">
+										<field name="service_id" />
+										<field name="name" />
+										<field name="cost_price" />
+										
+									</tree>
+								</field>
+								
+							</page>
+							<page string="Accounting Information">
+								<group>
+									<field name="rcv_account_id" required="1" />
+									<field name="pay_account_id" required="1" />
+								</group>
+							</page>
+						</notebook>
+						<separator colspan="6" string="Hotel Images" />
+						<group colspan="4" col="3">
+							<group>
+							<field name="hotel_img1" nolabel="1" img_width="400"
+								img_height="400" widget="image" />
+							</group>
+							<group>
+							<field name="hotel_img2" nolabel="1" img_width="800"
+								img_height="800"  widget="image" />
+							</group>
+							<group>
+							<field name="hotel_img3" nolabel="1" img_width="200"
+								img_height="200" widget="image" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="action_hotel_information" model="ir.actions.act_window">
+			<field name="name">Hotel information</field>
+			<field name="res_model">hotel.information</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="submenu_hotel_information"
+			parent="bi_tour_management.submenu_hotel_configuration" 
+			action="action_hotel_information" />
+
+	</data>
+</odoo>

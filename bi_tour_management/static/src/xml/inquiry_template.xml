@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="Destination">
+        <tr class="order_line">
+            <td class="td-destination_name">
+                <div class="form-group">
+                    <select name="tour_destination_id" id="tour_destination_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['destinations']" t-as="destination" t-key="destination.id">
+                            <option t-esc="destination.name" t-att-value="destination.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-country">
+                <div class="form-group">
+                    <select name="country_id" id="country_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['country']" t-as="c" t-key="c.id">
+                            <option t-esc="c.name" t-att-value="c.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-name">
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control"/>
+                </div>      
+            </td>
+            <td class="td-actiondelete">
+                <a href="#"
+                   aria-label="Remove from line"
+                   title="Remove from line"
+                   class="js_delete_destination no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+    <t t-name="Trasport">
+        <tr class="order_line1">
+            <td class="text-center">
+                <div class="form-group">
+                    <select name="name" id="name" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['transport']" t-as="d" t-key="d.id">
+                            <option t-esc="d[1]" t-att-value="d[0]"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="form-group">
+                    <select name="product_id" id="product_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['type']" t-as="t" t-key="t.id">
+                            <option t-esc="t.name" t-att-value="t.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center">
+                <div class="form-group">
+                    <select name="travel_class_id" id="travel_class_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['travel']" t-as="t" t-key="t.id">
+                            <option t-esc="t.name" t-att-value="t.id"/>
+                        </t>
+                    </select>
+                </div>      
+            </td>
+            <td class="td-action">
+                <a href="#"
+                   aria-label="Remove from line"
+                   title="Remove from line"
+                   class="js_delete_line no-decoration" >
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+        </tr>
+
+    </t>
+</templates>

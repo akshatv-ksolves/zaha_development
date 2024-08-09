@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<menuitem id="submenu_tour" parent="bi_tour_management.menu_tour" name="Tour" sequence="0"/>
+
+		<record id="bi_view_tour_booking_tree" model="ir.ui.view">
+			<field name="name">bi.view.tour.booking.tree</field>
+			<field name="model">tour.booking</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Booking" decoration-muted="state=='cancel'">
+					<field name="name" select="1" />
+					<field name="customer_id" />
+					<field name="current_date" />
+					<field name="adult" />
+					<field name="child" />
+					<field name="email_id" />
+					<field name="mobile1" />
+					<field name="tour_type" />
+					<field name="tour_id" />
+					<field name="tour_dates_id" />
+					<!-- <field name="total_amt" /> -->
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="bi_view_tour_booking_form" model="ir.ui.view">
+			<field name="name">bi.view.tour.booking.form</field>
+			<field name="model">tour.booking</field>
+			<field name="arch" type="xml">
+				<form string="Tour Booking">
+					<header>
+						<button string="Confirm" name="check_availability" invisible="state not in ('draft')"
+							type="object" />
+						
+						<button string="Cancel" name="cancel_tour_book" invisible="state not in ('draft','confirm','in_process')" type="object" />
+						
+						<button string="Create Quotation" name="create_order"
+							invisible="state not in ('confirm')" type="object" />
+						
+						<button string="Book Seat" name="confirm_booking" invisible="state not in ('in_process')"
+							type="object" />
+						
+						<!-- <button string="Check Payment" name="check_payment" states="booked"
+							type="object" /> -->
+						
+						<button string="Done" name="action_done" invisible="state not in ('booked')"
+							type="object" />
+						
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,in_process,booked,done,cancel" />
+					</header>
+					<sheet>
+
+						<div class="oe_button_box" name="button_box" position="inside">
+		                    <button class="oe_stat_button" name="button_count_quotation"
+		                            type="object" icon="fa-file-o" invisible ="sale_order_count == 0"> 
+		                        <field name="sale_order_count" widget="statinfo" string="Quotation" />
+		                    </button>
+		  				
+		                    <button class="oe_stat_button" name="button_count_invoice" type="object" icon="fa-pencil-square-o" invisible ="invoice_count == 0"> 
+		                        <field name="invoice_count" widget="statinfo" string="Invoice" />
+		                    </button>
+		                </div>
+
+						<h2><field name="name" select="1" /></h2>
+						<group colspan="4" col="3">
+							<group>
+							<field name="customer_id" readonly = "state != ('draft')"
+								context="{'default_customer': 1,  'default_supplier': 0, 'default_is_hotel': 0}"
+								domain="[('is_hotel','=',False)]" />
+							
+							<field name="current_date" readonly = "state != ('draft')" />
+							<field name="via" readonly = "state != ('draft')"/>
+							<field name ="company_id"/>
+							<field name ="access_token" invisible="1"/>
+							<field name ="mail_bool" invisible="1"/>
+						    </group>
+							<group>
+								<field name="email_id" readonly = "state != ('draft')"/>
+								<field name="mobile1" readonly = "state != ('draft')" />
+							</group>
+							<group>
+								<field name="adult" readonly = "state != ('draft')" />
+								<field name="child" readonly = "state != ('draft')"/>
+								
+								<field name="agent_id" context="{'default_agent': 1}"
+									domain="[('agent','=',True)]"
+									invisible ="via == ('direct')" required ="via != ('direct')" />
+								<field name="pricelist_id" readonly = "state != ('draft')"
+									required="1" />
+						    </group>
+						</group>
+						<separator colspan="6" string="Tour Information" />
+						<group colspan="6" col="3">
+							<group>
+								<field name="tour_type" readonly = "state != ('draft')" />
+								<field name="season_id" readonly = "state != ('draft')" />
+							</group>
+							<group>
+								<field name="tour_dates_id" readonly = "state != ('draft')"
+								domain="[('tour_id','=',tour_id),('season_id','=',season_id)]" />
+								<field name="payment_policy_id" readonly = "state != ('draft')" />
+								<field name="commission_compute" invisible="1" />
+							</group>
+							<group>
+								
+								<field name="tour_id" readonly = "state != ('draft')"/>
+								
+							</group>
+							
+						</group>
+						<notebook colspan="6">
+							<page string="Tour Persons">
+								
+								<field name="tour_customer_ids" readonly = "state != ('draft')"
+									nolabel="1">
+									<tree editable="bottom">
+										<field name="partner_id"
+											context="{'default_customer': 1,  'default_supplier': 0, 'default_is_hotel': 0}"
+											domain="[('is_hotel','=',False)]" />
+										<field name="name" />
+										<field name="gender" />
+										<field name="type" />
+										
+
+									</tree>
+
+								</field>
+								
+							</page>
+							<page string="Tour Program">
+							
+								<field name="tour_program_book_ids" nolabel="1"
+									readonly = "state not in ('draft')">
+									<tree string="Tour Program">
+										<field name="name"/>
+										<field name="days" />
+										<field name="description" />
+										<field name="breakfast" />
+										<field name="lunch" />
+										<field name="dinner" />
+										<field name="expected_line_sale"/>
+										<!-- <field name="expected_line_cost"/> -->
+									</tree>
+									<form>
+										<group>
+											<group>
+												<field name="name"/>
+												<field name="days" />
+											</group>
+											<group>
+												<field name="description" />
+											</group>
+										</group>
+										<group colspan="4" col="3">
+											<group>
+											   <field name="breakfast" />
+											</group>
+											<group>
+												<field name="lunch" />
+											</group>
+											<group>
+												<field name="dinner" />
+											</group>
+										</group>
+										<notebook colspan="6">
+											<page string="Program Expense">
+												<group>
+													<field name ="program_line_sale"/>
+													<!-- <field name ="program_line_cost"/> -->
+												</group>
+											</page>
+											<page string="Additional Information">
+												
+													<field name="site_ids" nolabel="1" />
+												
+											</page>
+										</notebook>
+
+										<group class="oe_subtotal_footer oe_left" colspan="2">
+
+											<!-- <field name="expected_line_cost" string="Total Cost Price" widget="monetary"
+												options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" /> -->
+                                            <field name="currency_id" invisible="1"/>
+											<field name="expected_line_sale" string="Total Sale Price" widget="monetary"
+												options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										</group>
+									</form>
+								</field>
+							
+
+						</page>
+						<page string="Destinations">
+							
+							<field name="tour_destination_book_ids" nolabel="1"
+								readonly = "state not in ('draft')">
+								<tree string="Tour Destinations">
+									<field name="destination_id" />
+									<field name="country_id" />
+									<field name="nights" />
+									<field name="visa_chk" />
+								</tree>
+								<form>
+									<group>
+										<group>
+											<field name="destination_id" />
+										</group>
+										<group>
+											<field name="country_id" />
+										</group>
+										<group>
+											<field name="nights" />
+										</group>
+										<group>
+											<field name="visa_chk" />
+										</group>
+									</group>
+								</form>
+							</field>
+							
+						</page>
+						<page string="Cost Include">
+							
+							<field name="itinary_cost_include_book_lines" nolabel="1"
+								readonly = "state not in ('draft')">
+								<tree string="Tour facilities" editable="top">
+									<field name="facility_id" />
+									<field name="name" />
+
+								</tree>
+
+							</field>
+							
+						</page>
+						<page string="Cost Exclude">
+							
+							<field name="itinary_cost_exclude_book_lines" nolabel="1"
+								readonly = "state not in ('draft')">
+								<tree string="Tour exclude facilities" editable="top">
+									<field name="facility_id" />
+									<field name="name" />
+
+								</tree>
+
+							</field>
+							
+						</page>
+						<page string="Site Cost">
+							
+							<field name="sites_costing_book_ids" nolabel="1" readonly = "state not in ('draft')">
+								<tree editable="top">
+									<field name="name" />
+									<!-- <field name="new_cost_price" /> -->
+									<field name="new_sale_price" />
+									<!-- <field name="total_cost_price" /> -->
+									<field name="total_sale_price" />
+								</tree>
+							</field>
+							
+						</page>
+						<page string="Visa Cost">
+							
+							<field name="visa_costing_book_ids" nolabel="1" readonly = "state not in ('draft')">
+								<tree>
+									<field name="country_id" />
+									<field name="name" />
+									<field name="visa_type" />
+									<!-- <field name="cost_price" /> -->
+									<field name="sale_price" />
+									<field name="total_person" />
+									<!-- <field name="total_cost_price" /> -->
+									<field name="total_sale_price" />
+
+								</tree>
+								<form>
+									<group colspan="4" col="2">
+										<group>
+											<field name="name" />
+											<!-- <field name="cost_price" /> -->
+											<field name="total_person" />
+											<!-- <field name="total_cost_price" /> -->
+										</group>
+										<group>
+											<field name="country_id" />
+											<field name="visa_type" />
+											<field name="sale_price" />
+											<field name="total_sale_price" />
+										</group>
+									</group>
+									<div>
+										<group colspan="4" col="2">
+											<group string="Sale Taxes">
+												<field name="sale_tax_ids" widget="many2many_tags" />
+											</group>
+											<group string="Purchase Taxes" >
+											    <field name="pur_tax_ids" widget="many2many_tags" />
+											</group>
+
+										</group>
+									</div>
+
+									<group class="oe_subtotal_footer oe_left" colspan="2">
+
+										<field name="purchse_tax_amount_visa" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										<field name="visa_pln_purchase" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+										<div class="oe_subtotal_footer_separator oe_inline"></div>
+										<br/>
+										<field name="currency_id" invisible="1"/>
+										<field name="sale_tax_amount_visa" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										<field name="visa_pln_sale" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+									</group>	
+
+								</form>
+							</field>
+							
+						</page>
+						<page string="Hotel Details">
+							
+							<field name="hotel_planer_book_ids" context="{'parent_id':active_id}"
+								nolabel="1" readonly = "state not in ('draft')">
+								<tree>
+									<field name="name" />
+									<field name="destination_id" />
+									<field name="hotel_type_id" />
+									<field name="hotel_id" />
+									<field name="room_type_id" />
+									<field name="room_req" />
+									<field name="days" />
+									<!-- <field name="supplier_price" /> -->
+									<field name="customer_price" />
+									<!-- <field name="supplier_price_total" /> -->
+									<field name="customer_price_total" />
+
+								</tree>
+								<form>
+									<group colspan="2" col="2">
+										<group>
+											<field name="name" />
+											<field name="destination_id" />
+											<field name="hotel_id" />
+											<field name="hotel_type_id" />
+											<field name="room_type_id" />
+										</group>
+										<group>
+											<field name="room_req" />
+											<field name="days" />
+											<!-- <field name="supplier_price" /> -->
+											<field name="customer_price" />
+											<!-- <field name="supplier_price_total" /> -->
+											<field name="customer_price_total"/>
+											<field name="pur_bol" />
+									    </group>
+
+									</group>
+									<div>
+										<group colspan="4" col="2">
+											<group string="Sale Taxes">
+												<field name="sale_tax_ids" widget="many2many_tags" />
+											</group>
+											<group string="Purchase Taxes" invisible ="pur_bol == False">
+											    <field name="pur_tax_ids"  widget="many2many_tags" invisible ="pur_bol == False"/>
+											</group>
+
+										</group>
+									</div>
+
+
+									<group class="oe_subtotal_footer oe_left" colspan="2">
+
+										<field name="purchse_tax_amount_htl" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										<field name="hotel_pln_purchase" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+										<div class="oe_subtotal_footer_separator oe_inline"></div>
+										<br/>
+										<field name="currency_id" invisible="1"/>
+										<field name="sale_tax_amount_htl" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										<field name="hotel_pln_sale" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+									</group>
+
+
+								</form>
+							</field>
+							
+						</page>
+						<page string="Travel Planer">
+							
+							<field name="travel_planer_book_ids" context="{'parent_id':active_id}"
+								nolabel="1" readonly = "state not in ('draft')">
+								<tree>
+									<field name="name" />
+									<field name="transport_id" />
+									<field name="date" />
+									<field name="transport_carrier_id" />
+									<field name="transport_type_id" />
+									<field name="travel_class_id" />
+									<field name="from_dest_id" />
+									<field name="to_dest_id" />
+									<!-- <field name="adult" /> -->
+									<!-- <field name="child" /> -->
+									<!-- <field name="cost_price_adult" /> -->
+									<!-- <field name="cost_price_child" /> -->
+									<field name="sale_price_adult" />
+									<field name="sale_price_child" />
+									<!-- <field name="total_cost_price_adult" /> -->
+									<!-- <field name="total_cost_price_child" /> -->
+									<field name="total_sale_price_adult"/>
+									<field name="total_sale_price_child"/>
+
+								</tree>
+								<form>
+									<group colspan="2" col="2">
+										<group>
+											<field name="name" />
+											<field name="transport_id" />
+											<field name="date" />
+											<field name="transport_carrier_id" />
+											<field name="transport_type_id" />
+											<field name="travel_class_id" />
+											<field name="from_dest_id" />
+											<field name="to_dest_id" />
+										</group>
+										<group>
+											<!-- <field name="adult" /> -->
+											<!-- <field name="child" /> -->
+											<!-- <field name="cost_price_adult" /> -->
+											<!-- <field name="cost_price_child" /> -->
+											<field name="sale_price_adult" />
+											<field name="sale_price_child" />
+											<!-- <field name="total_cost_price_adult" /> -->
+											<!-- <field name="total_cost_price_child" /> -->
+											<field name="total_sale_price_adult"/>
+											<field name="total_sale_price_child"/>
+											<field name="pur_bol" />
+										</group>
+									</group>
+									<div>
+										<group colspan="4" col="2">
+											<group string="Sale Taxes">
+												<field name="sale_tax_ids"  widget="many2many_tags" />
+											</group>
+											<group string="Purchase Taxes" invisible ="pur_bol == False">
+											    <field name="pur_tax_ids" widget="many2many_tags" invisible = "pur_bol == False"/>
+											</group>
+
+										</group>
+									</div>
+
+									
+
+									<group class="oe_subtotal_footer oe_left" colspan="2">
+
+										<field name="pur_tax_amt_travel" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										<field name="purchase_amount" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+										<div class="oe_subtotal_footer_separator oe_inline"></div>
+										<br/>
+										<field name="currency_id" invisible="1"/>
+										<field name="sale_tax_amt_travel" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+										<field name="sale_amount" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+									</group>
+
+								</form>
+
+							</field>
+						</page>
+							<page string="Other Services">
+								<field name="service_book_ids" nolabel="1" readonly = "state not in ('draft')">
+									<tree>
+										<field name="product_id" />
+										<field name="sale_price" />
+										<field name="price_unit" />
+										<field name="product_uom_qty" />
+										<field name="product_uom_id" />
+										<field name="discount" />
+										<field name="price_subtotal_cost" />
+										<field name="price_subtotal" />
+
+									</tree>
+									<form>
+										<group colspan="2" col="2">
+											<group>
+												<field name="product_id" />
+												<field name="price_unit" />
+												<field name="sale_price" />
+												<field name="product_uom_qty" />
+												<field name="product_uom_id" />
+											</group>
+											<group>
+												<field name="price_subtotal_cost" />
+												<field name="price_subtotal" />
+												<field name="discount" />
+												<field name="pur_bol" />
+											</group>
+										</group>
+										<div>
+										<group colspan="4" col="2">
+											<group string="Sale Taxes">
+												<field name="sale_tax_ids"  widget="many2many_tags" />
+											</group>
+											<group string="Purchase Taxes" invisible ="pur_bol == False">
+											    <field name="pur_tax_ids" widget="many2many_tags" invisible = "pur_bol == False"/>
+											</group>
+
+										</group>
+									</div>
+
+										<group class="oe_subtotal_footer oe_left" colspan="2">
+											<field name="currency_id" invisible="1"/>
+											<field name="purchse_tax_amount_tour" widget="monetary"
+											options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+											<field name="pur_tour_service" widget="monetary"
+												options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+											<div class="oe_subtotal_footer_separator oe_inline"></div>
+											<br/>
+                                            	
+											<field name="sale_tax_amount_tour" widget="monetary"
+												options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+											<field name="sale_tour_service" widget="monetary"
+												options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+
+										</group>
+
+									</form>
+								</field>
+						</page>
+						<page string="Services">
+							
+							<field name="insurance_line_ids" readonly = "state != ('draft')"
+								nolabel="1">
+								<tree>
+									<field name="insurance_policy_id" />
+									<field name="insurance_type_id"/>
+									<field name="insurance_cost_for_adults" />
+									<field name="insurance_cost_for_childs" />
+									<field name="total_cost" />
+								</tree>
+								<form>
+									<header>
+										<button string="Confirm" name="button_confirm" type="object"
+											invisible="state not in ('draft')" modifiers="{'invisible': [('state', 'not in', ['draft'])]}" />
+										<field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+									</header>
+									<group colspan="4" col="2">
+										<group>
+											<field name="insurance_type_id" />
+											<field name="name" />
+											<field name="insurance_cost_for_adults" />
+										</group>
+										<group>
+											<field name="insurance_cost_for_childs" />
+											<field name="total_cost" />
+										</group>
+									</group>
+									<!-- <separator colspan="6" />
+									<notebook colspan="4">
+										<page string="Coverage Information">
+											<group col="7" colspan="3">
+												<field name="coverage_line_ids" nolabel="1">
+													<tree editable="top">
+														<field name="product_id" />
+														<field name="benifit_cost" />
+													</tree>
+												</field>
+											</group>
+										</page>
+									</notebook> -->
+								</form>
+							</field>
+							
+					    </page>
+
+						</notebook>
+						
+					    <group class="oe_subtotal_footer oe_right" >
+							<field name="subtotal" widget="monetary"
+								options="{'currency_field': 'pricelist_id'}" colspan="2" />
+							<field name="tax_amt" widget="monetary"
+								options="{'currency_field': 'pricelist_id'}"  colspan="2"/>
+							<field name="total_insurance_amt" readonly="1" widget="monetary"
+								options="{'currency_field': 'pricelist_id'}" colspan="2"/>
+							<div class="oe_subtotal_footer_separator oe_inline">
+								<label for="total_amt"/>
+							</div>
+							<field name="total_amt" readonly="1" nolabel="1"
+								class="oe_subtotal_footer_separator" widget="monetary"
+								options="{'currency_field': 'pricelist_id'}"/>
+						</group>
+						<div class="clearfix"/>	
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_submenu_tour_booking" model="ir.actions.act_window">
+			<field name="name">Custom Tour Booking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'resource':'custom'}</field>
+		</record>
+		
+		<record id="action_tour_book" model="ir.actions.act_window">
+			<field name="name">Tour Booking</field>
+			<field name="res_model">tour.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem id="submenu_custom_tour_itinary" 
+		parent="bi_tour_management.submenu_tour"
+		action="bi_tour_management.action_custom_tour_itinary" sequence="2"/>
+
+		<menuitem id="submenu_custom_approved_itinary" parent="bi_tour_management.submenu_tour"
+		action="bi_tour_management.action_custom_approved_itinary" sequence="1"/>
+		
+
+		<menuitem id="submenu_custom_tour_booking" parent="bi_tour_management.submenu_custom_tour"
+			action="action_submenu_tour_booking" />
+
+		<menuitem id="submenu_tour_booking" parent="bi_tour_management.submenu_tour"
+			name="Tour Booking" action="action_tour_book" />
+
+
+	</data>
+</odoo>

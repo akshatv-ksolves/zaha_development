@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+
+		<record id="seq_visa_book" model="ir.sequence">
+			<field name="name">Visa Book</field>
+			<field name="code">visa.booking</field>
+			<field name="prefix">VSB</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_passport_book" model="ir.sequence">
+			<field name="name">passport Book</field>
+			<field name="code">passport.booking</field>
+			<field name="prefix">PSB</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+	</data>
+</odoo>

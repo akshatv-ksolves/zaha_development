@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tour_booking_wizard_form" model="ir.ui.view">
+        <field name="name">tour.booking.wizard.form</field>
+        <field name="model">tour.booking.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Tour Booking">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="res_partner_id"/>
+                            <field name="mobile_number"/>
+
+                        </group>
+                        <group>
+                            <field name="email"/>
+                            <field name="res_currency_id"/>
+                        </group>
+                        <group>
+                            <field name="select_tour_type"/>
+                            <field name="tour_season_id"/>
+                            <field name="tour_dates_id"/>
+
+                        </group>
+                        <group>
+                            <field name="tour_payment_policy_id"/>
+                            <field name="tour_package_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="button_tour_book_wizard" string="Book"
+                        type="object" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+         </field>
+    </record>
+
+    <record id="action_tour_booking_wizard" model="ir.actions.act_window">
+        <field name="name">Tour Booking</field>
+        <field name="res_model">tour.booking.wizard</field>
+        <field name="view_mode">tree,form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_tour_booking_wizard_form"/>
+    </record>
+</odoo>

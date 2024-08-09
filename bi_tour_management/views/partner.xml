@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="partner_inherit_form_view" model="ir.ui.view">
+			<field name="name">partner.inherit.form.view</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+
+				<xpath expr="//notebook/page[@name='internal_notes']"
+					position="after">
+					<page string="Tour History" name="tour_history">
+						<field name="tour_partner_history_ids" />
+					</page>
+				</xpath>
+				<xpath
+					expr="//notebook/page[@name='sales_purchases']/group[@name='container_row_2']/group[@name='purchase']"
+					position="inside">
+					<field name="agent" />
+					<field name="is_hotel" />
+					<field name="hotel_type_id" readonly="is_hotel == False" />
+				</xpath>
+				<notebook position="inside">
+					<page invisible="agent == False" string="Commission">
+						<field name="commisision_ids">
+							<tree>
+								<field name="tour_id" />
+								<field name="commission_per" />
+
+							</tree>
+							<form>
+								<group>
+									<group>
+										<field name="tour_id" />
+										<field name="commission_per" />
+									</group>
+									<group>
+										<field name="name" />
+									</group>
+
+								</group>
+							</form>
+
+
+						</field>
+					</page>
+				</notebook>
+			</field>
+		</record>
+
+		<record id="product_inherit_form_view" model="ir.ui.view">
+			<field name="name">product.inherit.form.view</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[@class='oe_title']/div[@name='options']"
+					position="inside">
+					<div>
+						<field name="is_tour" />
+						<label for="is_tour" />
+					</div>
+				</xpath>
+				<!-- <xpath expr="//notebook/page[@name='internal_notes']" position="after"> -->
+				<!-- <page string="Tour History" name="tour_history" > -->
+				<!-- <field name="tour_partner_history_ids"/> -->
+				<!-- </page> -->
+				<!-- </xpath> -->
+			</field>
+		</record>
+	</data>
+</odoo>

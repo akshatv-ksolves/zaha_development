@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_hotel_type_tree" model="ir.ui.view">
+			<field name="name">view.hotel.type.tree</field>
+			<field name="model">hotel.type</field>
+			<field name="arch" type="xml">
+				<tree string="Hotel Type" editable="bottom">
+					<field name="name" />
+					<field name="description" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_hotel_type" model="ir.actions.act_window">
+			<field name="name">Hotel Type</field>
+			<field name="res_model">hotel.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="submenu_hotel_type" 
+			parent="bi_tour_management.submenu_hotel_configuration"
+			action="action_hotel_type" />
+
+	</data>
+</odoo>

@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="Persons">
+        <tr class="orderline1">
+            <td class="td-persons">
+                <div class="form-group">
+                    <select name="partner_id" id="partner_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['persons']" t-as="person" t-key="person.id">
+                            <option t-esc="person.name" t-att-value="person.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-name">
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control"/>
+                </div>      
+            </td>
+            <td class="text-center td-gender">
+                <div class="form-group">
+                    <select name="gender" id="gender" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['gender']" t-as="gen" t-key="gen.id">
+                            <option t-esc="gen[1]" t-att-value="gen[0]"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-type">
+                <div class="form-group">
+                    <select name="type" id="type" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['type']" t-as="ty" t-key="ty.id">
+                            <option t-esc="ty[1]" t-att-value="ty[0]"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_person no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+    <t t-name="Program">
+        <tr class="orderline2">
+            <td class="text-center td-name">
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-days">
+                <div class="form-group">
+                    <input type="text" name="days" id="days" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-description">
+                <div class="form-group">
+                    <input type="text" name="description" id="description" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-breakfast">
+                <div class="form-group">
+                    <input type="checkbox" name="breakfast" id="breakfast" value="breakfast" class="form-check-input" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-lunch">
+               <div class="form-group">
+                    <input type="checkbox" name="lunch" id="lunch" value="lunch" class="form-check-input" readonly="readonly"/>
+                </div>
+            </td>
+            <td class="text-center td-dinner">
+                <div class="form-group">
+                    <input type="checkbox" name="dinner" id="dinner" value="dinner" class="form-check-input" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-linesale">
+                <div class="form-group">
+                    <input type="text" name="expected_line_sale" id="expected_line_sale" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            
+            <td class="td-action">
+                <a href="#"
+                   aria-label="Remove from line"
+                   title="Remove from line"
+                   class="js_delete_program no-decoration" >
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+        </tr>
+    </t>
+
+    <t t-name="Destinations">
+        <tr class="orderline3">
+            <td class="td-destinations">
+                <div class="form-group">
+                    <select name="destination_id" id="destination_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['destinations']" t-as="c" t-key="c.id">
+                            <option t-esc="c.name" t-att-value="c.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-country">
+                <div class="form-group">
+                    <select name="country_id" id="country_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['country']" t-as="c" t-key="c.id">
+                            <option t-esc="c.name" t-att-value="c.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-nights">
+                <div class="form-group">
+                    <input type="text" name="nights" id="nights" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-visa_chk">
+                <div class="form-group">
+                    <input type="checkbox" name="visa_chk" id="visa_chk" value = "True" class="form-check-input" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_dest no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Cost_Include">
+        <tr class="orderline4">
+            <td class="td-facility">
+                <div class="form-group">
+                    <select name="facility_id" id="facility_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['facility']" t-as="f" t-key="f.id">
+                            <option t-esc="f.name" t-att-value="f.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-description">
+                <div class="form-group">
+                    <input type="text" name="name" id="description" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>   
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_include no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Cost_Exclude">
+        <tr class="orderline5">
+            <td class="td-facility">
+                <div class="form-group">
+                    <select name="facility_id" id="facility_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['facility']" t-as="f" t-key="f.id">
+                            <option t-esc="f.name" t-att-value="f.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-description">
+                <div class="form-group">
+                    <input type="text" name="name" id="description" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>   
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_exclude no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Site">
+        <tr class="orderline6">
+            <td class="td-site">
+                <div class="form-group">
+                    <select name="site_name" id="site_name" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['sites']" t-as="site" t-key="site.id">
+                            <option t-esc="site.name" t-att-value="site.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-newsale">
+                <div class="form-group">
+                    <input type="text" name="new_sale_price" id="new_sale_price" class="form-control" readonly="readonly"/>
+                </div> 
+            </td> 
+            <td class="text-center td-totalsale">
+                <div class="form-group">
+                    <input type="text" name="total_sale_price" id="total_sale_price" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>   
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_site no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Visa">
+        <tr class="orderline7">
+            <td class="td-country">
+                <div class="form-group">
+                    <select name="country_id" id="country_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['country']" t-as="c" t-key="c.id">
+                            <option t-esc="c.name" t-att-value="c.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-visa">
+                <div class="form-group">
+                    <input type="text" name="visa" id="visa" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="td-visa_type">
+                <div class="form-group">
+                    <select name="visa_type" id="visa_type" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['v_types']" t-as="vt" t-key="vt.id">
+                            <option t-esc="vt[1]" t-att-value="vt[0]"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-sale_price">
+                <div class="form-group">
+                    <input type="text" name="sale_price" id="sale_price" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-newsale">
+                <div class="form-group">
+                    <input type="text" name="total_person" id="total_person" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-totalsale">
+                <div class="form-group">
+                    <input type="text" name="total_sale_price" id="total_sale_price" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>   
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_visa no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Hotel">
+        <tr class="orderline8">
+            <td class="text-center td-seq">
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control"/>
+                </div> 
+            </td>
+            <td class="td-destinations">
+                <div class="form-group">
+                    <select name="destination_id" id="destination_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['destinations']" t-as="d" t-key="d.id">
+                            <option t-esc="d.name" t-att-value="d.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-type">
+                <div class="form-group">
+                    <select name="hotel_type_id" id="hotel_type_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['h_types']" t-as="typ" t-key="typ.id">
+                            <option t-esc="typ.name" t-att-value="typ.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-hotel">
+                <div class="form-group">
+                    <select name="hotel_id" id="hotel_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['hotels']" t-as="h" t-key="h.id">
+                            <option t-esc="h.name" t-att-value="h.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-room_type">
+                <div class="form-group">
+                    <select name="room_type_id" id="room_type_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['product']" t-as="p" t-key="p.id">
+                            <option t-esc="p.name" t-att-value="p.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-req">
+                <div class="form-group">
+                    <input type="text" name="room_req" id="room_req" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            
+            <td class="text-center td-days">
+                <div class="form-group">
+                    <input type="text" name="days" id="days" class="form-control" readonly="readonly"/>
+                </div> 
+            </td> 
+            <td class="text-center td-customer_price">
+                <div class="form-group">
+                    <input type="text" name="customer_price" id="customer_price" class="form-control" readonly="readonly"/>
+                </div> 
+            </td> 
+            <td class="text-center td-customer_price_total">
+                <div class="form-group">
+                    <input type="text" name="customer_price_total" id="customer_price_total" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>   
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_hotel no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Travel">
+        <tr class="orderline9">
+            <td class="text-center td-sequence">
+                <div class="form-group">
+                    <input type="text" name="name" id="name" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="td-transport">
+                <div class="form-group">
+                    <select name="transport_id" id="transport_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['transport']" t-as="t" t-key="t.id">
+                            <option t-esc="t.name" t-att-value="t.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-date">
+                <div class="form-group">
+                    <input type="date" name="date" id="date" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="td-carrier">
+                <div class="form-group">
+                    <select name="transport_carrier_id" id="transport_carrier_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['t_carrier']" t-as="tc" t-key="tc.id">
+                            <option t-esc="tc.name" t-att-value="tc.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-type">
+                <div class="form-group">
+                    <select name="transport_type_id" id="transport_type_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['sites']" t-as="typ" t-key="typ.id">
+                            <option t-esc="typ.name" t-att-value="typ.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-t_class">
+                <div class="form-group">
+                    <select name="travel_class_id" id="travel_class_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['t_class']" t-as="class" t-key="class.id">
+                            <option t-esc="class.name" t-att-value="class.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-from">
+                <div class="form-group">
+                    <select name="from_dest_id" id="from_dest_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['destinations']" t-as="from" t-key="from.id">
+                            <option t-esc="from.name" t-att-value="from.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="td-to">
+                <div class="form-group">
+                    <select name="to_dest_id" id="to_dest_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['destinations']" t-as="to" t-key="to.id">
+                            <option t-esc="to.name" t-att-value="to.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-costadultprice">
+                <div class="form-group">
+                    <input type="text" name="cost_price_adult" id="cost_price_adult" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-costchildprice">
+                <div class="form-group">
+                    <input type="text" name="cost_price_child" id="cost_price_child" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-priceadult">
+                <div class="form-group">
+                    <input type="text" name="sale_price_adult" id="sale_price_adult" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-pricechild">
+                <div class="form-group">
+                    <input type="text" name="sale_price_child" id="sale_price_child" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_travel no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Other">
+        <tr class="orderline10">
+            <td class="td-product">
+                <div class="form-group">
+                    <select name="product_id" id="product_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['product']" t-as="p" t-key="p.id">
+                            <option t-esc="p.name" t-att-value="p.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-sale">
+                <div class="form-group">
+                    <input type="number" name="sale_price" id="sale_price" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-qty">
+                <div class="form-group">
+                    <input type="number" name="product_uom_qty" id="product_uom_qty" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="td-uom">
+                <div class="form-group">
+                    <select name="product_uom_id" id="product_uom_id" class="form-select link-style" readonly="readonly">
+                        <option/>
+                        <t t-foreach="widget['uom']" t-as="u" t-key="u.id">
+
+                            <option t-esc="u.name" t-att-value="u.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-discount">
+                <div class="form-group">
+                    <input type="number" name="discount" id="discount" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+            <td class="text-center td-price_subtotal">
+                <div class="form-group">
+                    <input type="number" name="price_subtotal" id="price_subtotal" class="form-control" readonly="readonly"/>
+                </div> 
+            </td>
+    
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_other no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+
+    <t t-name="Service">
+        <tr class="orderline11">
+            <td class="td-product">
+                <div class="form-group">
+                    <select name="insurance_type_id" id="insurance_type_id" class="form-select link-style">
+                        <option/>
+                        <t t-foreach="widget['insurance']" t-as="i" t-key="i.id">
+                            <option t-esc="i.name" t-att-value="i.id"/>
+                        </t>
+                    </select>
+                </div>
+            </td>
+            <td class="text-center td-adults">
+                <div class="form-group">
+                    <input type="text" name="insurance_cost_for_adults" id="insurance_cost_for_adults" class="form-control"/>
+                </div> 
+            </td>
+            <td class="text-center td-childs">
+                <div class="form-group">
+                    <input type="text" name="insurance_cost_for_childs" id="insurance_cost_for_childs" class="form-control"/>
+                </div> 
+            </td>
+            <td class="text-center td-total_cost">
+                <div class="form-group">
+                    <input type="text" name="total_cost" id="total_cost" class="form-control"/>
+                </div> 
+            </td>
+    
+            <td class="td-actiondelete">
+                <a href="#" aria-label="Remove from line" title="Remove from line" class="js_delete_service no-decoration">
+                    <small>
+                        <i class="fa fa-trash-o" style="margin-top: 15px;"/>
+                    </small>
+                </a>
+            </td>
+            
+        </tr>
+    </t>
+</templates>

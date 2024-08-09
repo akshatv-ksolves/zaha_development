@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="seq_tour_book" model="ir.sequence">
+			<field name="name">Tour Book</field>
+			<field name="code">tour.booking</field>
+			<field name="prefix">TB</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="transport_booking" model="ir.sequence">
+			<field name="name">Transport Book</field>
+			<field name="code">transport.booking</field>
+			<field name="prefix">TR</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="commision_id" model="ir.sequence">
+			<field name="name">Agent Commision</field>
+			<field name="code">agent.commission.invoice</field>
+			<field name="prefix">ACI</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_tour_book_custom" model="ir.sequence">
+			<field name="name">Tour Book Custom</field>
+			<field name="code">tour.booking.custom</field>
+			<field name="prefix">CTB</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_tour_cancel" model="ir.sequence">
+			<field name="name">Tour Cancel</field>
+			<field name="code">tour.cancel</field>
+			<field name="prefix">TBC</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_hotel_book" model="ir.sequence">
+			<field name="name">Hotel Book</field>
+			<field name="code">hotel.booking</field>
+			<field name="prefix">TH</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_tour_itinary" model="ir.sequence">
+			<field name="name">Tour Itinary</field>
+			<field name="code">custom.tour.itinary</field>
+			<field name="prefix">TIN</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_tour_preference" model="ir.sequence">
+			<field name="name">Tour Preference</field>
+			<field name="code">tour.preference</field>
+			<field name="prefix">INQ</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_visa_book" model="ir.sequence">
+			<field name="name">Visa Book</field>
+			<field name="code">visa.booking</field>
+			<field name="prefix">VSB</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+		<record id="seq_passport_book" model="ir.sequence">
+			<field name="name">passport Book</field>
+			<field name="code">passport.booking</field>
+			<field name="prefix">PSB</field>
+			<field name="padding">6</field>
+			<field name="company_id" eval="False" />
+		</record>
+
+	</data>
+</odoo>

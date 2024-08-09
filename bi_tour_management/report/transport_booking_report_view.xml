@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_transport_booking_layout">
+            <t t-call="web.external_layout">
+                <div class="page">
+                        
+                    <div class="oe_structure"/>
+                    <br/>
+                    <h3 style="text-align : center;">Transport Booking Report</h3><br/>
+                    <div class="row mt32 mb32">
+                		<div>
+                			<table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Registration Id:</strong>
+                                        <span t-field="o.name"/>
+                                    </td>
+                                    <td>
+                                        <strong>Mobile No.:</strong>
+                                        <span t-field="o.mobile"/>
+                                    </td>
+                                    <td>
+                                        <strong>Booking Date:</strong>
+                                        <span t-field="o.current_date"/>
+                                    </td>                                             
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Customer:</strong>
+                                        <span t-field="o.customer_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Email Id:</strong>
+                                        <span t-field="o.email_id"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Adult:</strong>
+                                        <span t-field="o.adult"/>
+                                    </td>
+                                    <td>
+                                        <strong>Child:</strong>
+                                        <span t-field="o.child"/>
+                                    </td>
+                                    <td>
+                                        <strong>Pricelist:</strong>
+                                        <span t-field="o.pricelist_id"/>
+                                    </td>
+                                </tr>
+                                
+                			</table>
+            			<br/>
+                        <div>
+                            <h3><strong>Tour Information</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>PNR No.:</strong>
+                                        <span t-field="o.pnr_no"/>
+                                    </td>
+                                    <td>
+                                        <strong>Tour Booking Reference:</strong>
+                                        <span t-field="o.tour_book_id"/>
+                                    </td>  
+                                    <td>
+                                        <strong>Tour Start Date:</strong>
+                                        <span t-field="o.tour_date_id"/>
+                                    </td>              
+                                                  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Departure Date:</strong>
+                                        <span t-field="o.depart_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Carrier No.:</strong>
+                                        <span t-field="o.carrier_id"/>
+                                    </td>
+                                    <td>
+                                    	<strong>Arrival Date:</strong>
+                                        <span t-field="o.arrival_date"/>
+                                    </td>
+                                </tr>
+                			</table>
+            			<br/>
+                        <div>
+                            <h3><strong>Customer Information</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Person:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Age:</strong>
+                                    </td>  
+                                    <td>
+                                        <strong>Gender:</strong>
+                                    </td>                       
+                                    <td>
+                                        <strong>Adult/Child:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Room Number:</strong>
+                                    </td>
+                                </tr> 
+                                <t t-foreach="o.customer_line_ids" t-as="a">   
+                                <tr>
+                                    <td>
+                                        <span t-field="a.partner_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.name"/>
+                                    </td>  
+                                    <td>
+                                        <span t-field="a.gender"/>
+                                    </td>                       
+                                    <td>
+                                        <span t-field="a.type"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.room_no"/>
+                                    </td>
+                                </tr> 
+                                </t>                
+                			</table>
+            			<br/>
+                            <table class="table table-condensed">
+                                <tbody class="sale_tbody">
+                                    <tr>
+                                        <td width="10%">
+                                        </td>
+                                        <td width="10%">
+                                            <strong>Untax Amount:</strong>
+                                            <span t-field="o.untax_amt"/>
+                                        </td>
+
+                                        <td width="10%">
+                                           <strong>Taxes:</strong>
+                                            <span t-field="o.tax_amt"/>
+                                        </td>
+                                        <td width="10%">
+                                           <strong>Customer Invoice Amount:</strong>
+                                            <span t-field="o.total_amt"/>
+                                        </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+            			
+                		</div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <template id="transport_booking_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="bi_tour_management.report_transport_booking_layout" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

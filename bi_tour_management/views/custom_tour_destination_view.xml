@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_custom_tour_destination_form" model="ir.ui.view">
+			<field name="name">bi.view.custom.tour.destination.form</field>
+			<field name="model">custom.tour.destination</field>
+			<field name="arch" type="xml">
+				<form string="custom.tour.destination">
+					<group colspan="4" col="6">
+						<field name="tour_destination_id" />
+						<field name="country_id" />
+						<field name="name" />
+					</group>
+					<notebook colspan="6">
+						<page string="Site Line Ids">
+							
+							<field name="site_line_ids" nolabel="1">
+								<tree>
+									<field name="name" />
+								</tree>
+							</field>
+							
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_custom_tour_destination" model="ir.actions.act_window">
+			<field name="name">Destination Preferences</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.destination</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+	</data>
+</odoo>

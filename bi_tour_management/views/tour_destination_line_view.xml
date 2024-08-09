@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="action_tour_destination_line" model="ir.actions.act_window">
+			<field name="name">Hotel Tour</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.destination.line</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+	</data>
+</odoo>

@@ -1,0 +1,1111 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <template id="booking_create_message">
+        <title>Booking</title>
+        <t t-call="website.layout">
+            <div class="oe_structure"/>
+            <div class="container text-center mt-4">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Thank You!</h4>
+                    <p><t t-esc="message"/></p>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="tour_inquiry">
+        <title>Tour - Inquiry</title>
+        <t t-call="website.layout">
+            <div class="oe_structure" id="inquiry_tour">
+            <div class="p-4" id="inquiry_data">
+                <h4 class="mx-4 text-center">Ask Your Inquiry</h4>
+                <hr/>
+                <button type="submit" id="inquiry_create_btn_id" class="btn btn-info pull-left mb-3 inquiry_create_btn">Create New Inquiry</button>
+                <div>
+                    <table class="table table-hover table-bordered" t-if="inquiries">
+                        <thead>
+                            <tr class="active">
+                                <th width="8%;">Name</th>
+                                <th>Lead Name</th>
+                                <th width="6%;">Inquiry Date</th>
+                                <th width="5%;">Adult</th>
+                                <th width="5%;">Child</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th width="6%;" class="text-right">Stage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="inquiries" t-as="inquiry">
+                                <tr>
+                                    <td>
+                                        <t t-esc="inquiry.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="inquiry.lead_id.name"/>
+                                    </td>
+                                    <td><t t-esc="inquiry.current_date"/></td>
+                                    <td><t t-esc="inquiry.adult"/></td>
+                                    <td><t t-esc="inquiry.child"/></td>
+                                    <td><t t-esc="inquiry.email_id"/></td>
+                                    <td><t t-esc="inquiry.mobile"/></td>
+                                    <td>
+                                        <span t-if="inquiry.state == 'draft'" class="badge rounded-pill text-bg-info">
+                                            <i class="fa fa-fw fa-clock-o" role="img" aria-label="In Progress" title="In Progress"></i>
+                                            <span class="d-none d-md-inline"> Draft</span>
+                                        </span>
+                                        <span t-if="inquiry.state == 'confirm'" class="badge rounded-pill text-bg-success">
+                                            <i class="fa fa-fw fa-check" role="img" aria-label="Confirm" title="Confirm"></i>
+                                            <span class="d-none d-md-inline"> Confirm</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered" t-else="">
+                        <tr>
+                            <td style="text-align:center;">
+                                <strong>No Any Records found</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="container mt-4 inquiry_create" style="display:none" id="inquiry_create">
+                <h4 class="mx-4 text-center">Fill the below Details</h4>
+                <hr/>
+                <form role="form" action="/inquiry/create" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="lead_id" class="control-label col-form-label-sm">Lead</label>
+                                <select name="lead_id" class="form-control link-style" id="lead_id">
+                                    <option/>
+                                    <t t-foreach="leads" t-as="lead">
+                                        <option t-esc="lead.name" t-att-value="lead.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="current_date" class="control-label col-form-label-sm">Inquiry Date</label>
+                                <input type="date" name="current_date" id="current_date" class="form-control"/>      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email_id" class="control-label col-form-label-sm">Email</label>
+                                <input type="text" name="email_id" id="email_id" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="via" class="control-label col-form-label-sm">Via</label>
+                                <select name="via" id="via" class="form-control link-style">
+                                    <option/>
+                                    <t t-foreach="via" t-as="v">
+                                        <option t-esc="v[1]" t-att-value="v[0]"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="agent_id" id="label_agent" class="control-label col-form-label-sm">Agent</label>
+                                <select name="agent_id" id="agent_id" class="form-control link-style">
+                                    <option/>
+                                    <t t-foreach="agents" t-as="agent">
+                                        <option t-esc="agent.name" t-att-value="agent.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="contact_name" class="control-label col-form-label-sm">Contact Name</label>
+                                <input type="text" name="contact_name" id="contact_name" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="mobile" class="control-label col-form-label-sm">Mobile Number</label>
+                                <input type="text" name="mobile" id="mobile" class="form-control"/>      
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="adult" class="control-label col-form-label-sm">Adult</label>
+                                <input type="text" name="adult" id="adult" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="child" class="control-label col-form-label-sm">Child</label>
+                                <input type="child" name="child" id="child" class="form-control"/>      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="street" class="control-label col-form-label-sm">Address</label>
+                                <input type="text" name="street" id="street" class="form-control" placeholder="Street.."/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="street2" class="control-label col-form-label-sm"></label>
+                                <input type="text" name="street2" id="street2" class="form-control" placeholder="Street 2.." style="margin-top: 17px;"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="zip" class="control-label col-form-label-sm">Zip</label>
+                                <input type="text" name="zip" id="zip" class="form-control" placeholder="Zip"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="city" class="control-label col-form-label-sm">City</label>
+                                <input type="text" name="city" id="city" class="form-control" placeholder="city"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="state_id" class="control-label col-form-label-sm">State</label>
+                                <select name="state_id" id="state_id" class="form-control link-style" placeholder="State">
+                                    <option/>
+                                    <t t-foreach="states" t-as="state">
+                                        <option t-esc="state.name" t-att-value="state.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="country_id" class="control-label col-form-label-sm">Country</label>
+                                <select name="country_id" id="country_id" class="form-control link-style" placeholder="Country">
+                                    <option/>
+                                    <t t-foreach="countries" t-as="country">
+                                        <option t-esc="country.name" t-att-value="country.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr/>
+                    <h4 class="text-center">Tour Information</h4>
+                    <hr/>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="checkin_date" class="control-label col-form-label-sm">Prefer Start Date</label>
+                                <input type="date" name="checkin_date" id="checkin_date" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="checkout_date" class="control-label col-form-label-sm">Prefer End Date</label>
+                                <input type="date" name="checkout_date" id="checkout_date" class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tour_low_price" class="control-label col-form-label-sm">Budget/ Person (min/max)</label>
+                                <input type="text" name="tour_low_price" id="tour_low_price" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tour_high_price" class="control-label col-form-label-sm"></label>
+                                <input type="text" name="tour_high_price" id="tour_high_price" class="form-control" style="margin-top: 17px;"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <section class="s_tabs pt48 pb48" data-vcss="001">
+                        <div class="container">
+                            <div class="s_tabs_main">
+                                <div class="s_tabs_nav card-header mb-3">
+                                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active"
+                                                id="nav_tabs_link_1"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_1"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_1"
+                                                aria-selected="true">Destinations Preferences</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_2"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_2"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_2"
+                                                aria-selected="false">Hotel Preferences</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_3"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_3"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_3"
+                                                aria-selected="false">Transport Preference</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="s_tabs_content tab-content">
+                                    <div class="tab-pane fade show active"
+                                        id="nav_tabs_content_1"
+                                        role="tabpanel"
+                                        aria-labelledby="nav_tabs_link_1">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="destination_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Destination</th>
+                                                            <th class="text-center">Country</th>
+                                                            <th class="text-center">No. of Night</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="line_tbody">
+                                                        <tr class="add_destination_tr">
+                                                            <td>
+                                                                <a href="#" id="add_dest" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_destination text-primary no-decoration">
+                                                                    <strong>
+                                                                        Add new line
+                                                                    </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade"
+                                        id="nav_tabs_content_2"
+                                        role="tabpanel"
+                                        aria-labelledby="nav_tabs_link_2">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="hotel_type_id" class="control-label col-form-label-sm">Hotel Type</label>
+                                                    <select name="hotel_type_id" id="hotel_type_id" class="form-control link-style">
+                                                        <option/>
+                                                        <t t-foreach="hotels" t-as="hotel">
+                                                            <option t-esc="hotel.name" t-att-value="hotel.id"/>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="room_type_id" class="control-label col-form-label-sm">Room Type</label>
+                                                    <select name="room_type_id" id="room_type_id" class="form-control link-style">
+                                                        <option/>
+                                                        <t t-foreach="rooms" t-as="room">
+                                                            <option t-esc="room.name" t-att-value="room.id"/>
+                                                        </t>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="room_req" class="control-label col-form-label-sm">No of Room Required</label>
+                                                    <input type="integer" name="room_req" id="room_req" class="form-control"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <div class="form-group">
+                                                    <label for="low_price" class="control-label col-form-label-sm">Price Limit (min/max)</label>
+                                                    <input type="integer" name="low_price" id="low_price" class="form-control"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="form-group">
+                                                    <input type="integer" name="high_price" id="high_price" class="form-control" style="margin-top: 36px;"/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="nav_tabs_content_3" role="tabpanel" aria-labelledby="nav_tabs_link_3">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="destination_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Destination</th>
+                                                            <th class="text-center">Tour preference</th>
+                                                            <th class="text-center">Travel Class</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="dest_tbody">
+                                                        <tr class="add_dest_tr">
+                                                            <td>
+                                                                <a href="#" id="add_line" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_line text-primary no-decoration">
+                                                                    <strong>
+                                                                        Add new line
+                                                                    </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                
+                   
+                    <div class="clearfix oe_login_buttons mt-3">
+                        <button type="submit" id="submit_inquiry" class="btn btn-primary pull-left">Book Now</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+
+                    function handleViaChange() {
+                        var viaSelect = document.getElementById("via");
+                        var agentIdRow = document.getElementById("agent_id");
+                        var agentIdLabel = document.getElementById("label_agent");
+
+                        if (viaSelect.value === "agent") {
+                            agentIdRow.style.display = "block";
+                            agentIdLabel.style.display = "block";
+                        } else {
+                            agentIdRow.style.display = "none";
+                            agentIdLabel.style.display = "none";
+                        }
+                    }
+
+                    var viaSelect = document.getElementById("via");
+                    if (viaSelect) {
+                        viaSelect.addEventListener("change", handleViaChange);
+                    }
+
+                    handleViaChange();
+                });
+            </script>
+        </t>
+    </template>
+    <template id="tour_booking">
+        <title>Tour - Booking</title>
+        <t t-call="website.layout">
+            <div class="oe_structure" id="booking_tour">
+            <div class="p-4" id="booking_data">
+                <h4 class="mx-4 text-center">Create your Booking</h4>
+                <hr/>
+                <button type="submit" id="booking_create_btn_id" class="btn btn-info pull-left mb-3 booking_create_btn">Create New Booking</button>
+                <div>
+                    <table class="table table-hover table-bordered" t-if="bookings">
+                        <thead>
+                            <tr class="active">
+                                <th width="8%;">Name</th>
+                                <th>Customer</th>
+                                <th width="6%;">Booking Date</th>
+                                <th width="5%;">Adult</th>
+                                <th width="5%;">Child</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th width="8%;">Tour Type</th>
+                                <th width="6%;">Tour Dates</th>
+                                <th width="6%;" class="text-right">Stage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="bookings" t-as="booking">
+                                <tr>
+                                    <td>
+                                            <t t-esc="booking.name"/>
+                                    </td>
+                                    <td>
+                                        <t t-esc="booking.customer_id.name"/>
+                                    </td>
+                                    <td><t t-esc="booking.current_date"/></td>
+                                    <td><t t-esc="booking.adult"/></td>
+                                    <td><t t-esc="booking.child"/></td>
+                                    <td><t t-esc="booking.email_id"/></td>
+                                    <td><t t-esc="booking.mobile1"/></td>
+                                    <td><t t-esc="booking.tour_type"/></td>
+                                    <td><t t-esc="booking.tour_id.name"/></td>
+                                    <td>
+                                        <span t-if="booking.state == 'draft'" class="badge rounded-pill text-bg-info">
+                                            <i class="fa fa-fw fa-clock-o" role="img" aria-label="In Progress" title="In Progress"></i>
+                                            <span class="d-none d-md-inline"> Draft</span>
+                                        </span>
+                                        <span t-if="booking.state == 'in_progress'" class="badge rounded-pill text-bg-warning">
+                                            <i class="fa fa-fw fa-clock-o" role="img" aria-label="In Progress" title="In Progress"></i>
+                                            <span class="d-none d-md-inline"> In Progress</span>
+                                        </span>
+                                        <span t-if="booking.state == 'cancel'" class="badge rounded-pill text-bg-secondary">
+                                            <i class="fa fa-fw fa-remove" role="img" aria-label="Cancelled" title="Cancelled"></i>
+                                            <span class="d-none d-md-inline"> Cancelled</span>
+                                        </span>
+                                        <span t-if="booking.state == 'done'" class="badge rounded-pill text-bg-success">
+                                            <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"></i>
+                                            <span class="d-none d-md-inline"> Done</span>
+                                        </span>
+                                        <span t-if="booking.state == 'confirm'" class="badge rounded-pill text-bg-success">
+                                            <i class="fa fa-fw fa-check" role="img" aria-label="Confirm" title="Confirm"></i>
+                                            <span class="d-none d-md-inline"> Confirm</span>
+                                        </span>
+                                        <span t-if="booking.state == 'booked'" class="badge rounded-pill text-bg-success">
+                                            <i class="fa fa-fw fa-check" role="img" aria-label="Confirm" title="Confirm"></i>
+                                            <span class="d-none d-md-inline"> Booked</span>
+                                        </span>
+                                        <span t-if="booking.state == 'invoiced'" class="badge rounded-pill text-bg-success">
+                                            <i class="fa fa-fw fa-check" role="img" aria-label="Confirm" title="Confirm"></i>
+                                            <span class="d-none d-md-inline"> Invoiced</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered" t-else="">
+                        <tr>
+                            <td style="text-align:center;">
+                                <strong>No Any Records found</strong>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="container mt-4 booking_create" style="display:none" id="booking_create">
+                <h4 class="mx-4 text-center">Fill the below Details</h4>
+                <hr/>
+                <form role="form" action="/booking/create" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="customer_id" class="control-label col-form-label-sm">Customer</label>
+                                <input type="text" name="customer_id" id="customer_id" class="form-control" readonly="readonly" t-att-data-id="request.env.user.partner_id.id" t-att-value="request.env.user.partner_id.name"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="current_date" class="control-label col-form-label-sm">Booking Date</label>
+                                <input type="date" name="current_date" id="current_date" class="form-control" t-att-value="current_date"/>      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="mobile1" class="control-label col-form-label-sm">Mobile</label>
+                                <input type="text" name="mobile1" id="mobile1" class="form-control" t-att-value="request.env.user.partner_id.phone"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email_id" class="control-label col-form-label-sm">Email</label>
+                                <input type="email" name="email_id" id="email_id" class="form-control" t-att-value="request.env.user.partner_id.email"/>      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="adult" class="control-label col-form-label-sm">Adult</label>
+                                <input type="text" name="adult" id="adult" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="child" class="control-label col-form-label-sm">Child</label>
+                                <input type="child" name="child" id="child" class="form-control"/>      
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="via" class="control-label col-form-label-sm">Via</label>
+                                <select name="via" id="via" class="form-select link-style">
+                                    <option/>
+                                    <t t-foreach="via" t-as="v">
+                                        <option t-esc="v[1]" t-att-value="v[0]"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                         <div class="col">
+                            <div class="form-group">
+                                <label for="pricelist_id" class="control-label col-form-label-sm">Currency</label>
+                                <select name="pricelist_id" id="pricelist_id" class="form-select link-style" >
+                                    <option/>
+                                    <t t-foreach="currency" t-as="c">
+                                        <option t-esc="c.name" t-att-value="c.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>               
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="agent_id" id="label_agent" class="control-label col-form-label-sm">Agent</label>
+                                <select name="agent_id" id="agent_id" class="form-select link-style">
+                                    <option/>
+                                    <t t-foreach="agents" t-as="agent">
+                                        <option t-esc="agent.name" t-att-value="agent.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h4 class="text-center">Tour Information</h4>
+                    <hr/>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tour_type" class="control-label col-form-label-sm">Tour Type</label>
+                                <select name="tour_type" id="tour_type" class="form-select link-style">
+                                    <option/>
+                                    <t t-foreach="t_types" t-as="type">
+                                        <option t-esc="type[1]" t-att-value="type[0]"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tour_id" class="control-label col-form-label-sm">Tour</label>
+                                <select name="tour_id" id="tour_id" class="form-select link-style">
+                                    <option/>
+                                    <t t-foreach="tours" t-as="tour">
+                                        <option t-esc="tour.name" t-att-value="tour.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="season_id" class="control-label col-form-label-sm">Season</label>
+                                <select name="season_id" id="season_id" class="form-select link-style">
+                                    <option/>
+                                    <t t-foreach="seasons" t-as="season">
+                                        <option t-esc="season.name" t-att-value="season.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tour_dates_id" class="control-label col-form-label-sm">Tour Date</label>
+                                <select name="tour_dates_id" id="tour_dates_id" class="form-select link-style">
+                                    <option/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                        <div class="form-group">
+                                <label for="payment_policy_id" class="control-label col-form-label-sm">Payment Policy</label>
+                                <select name="payment_policy_id" id ="payment_policy_id" class="form-select link-style">
+                                    <option/>
+                                    <t t-foreach="payments" t-as="payment">
+                                        <option t-esc="payment.name" t-att-value="payment.id"/>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+
+                    <section class="s_tabs pt48 pb48" data-vcss="001">
+                        <div class="container">
+                            <div class="s_tabs_main">
+                                <div class="s_tabs_nav card-header mb-3">
+                                    <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active"
+                                                id="nav_tabs_link_1"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_1"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_1"
+                                                aria-selected="true">Tour Persons</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_2"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_2"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_2"
+                                                aria-selected="false">Tour Program</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_3"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_3"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_3"
+                                                aria-selected="false">Destinations</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_4"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_4"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_4"
+                                                aria-selected="false">Cost Include</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_5"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_5"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_5"
+                                                aria-selected="false">Cost Exclude</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_6"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_6"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_6"
+                                                aria-selected="false">Site Cost</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_7"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_7"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_7"
+                                                aria-selected="false">Visa Cost</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_8"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_8"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_8"
+                                                aria-selected="false">Hotel Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_9"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_9"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_9"
+                                                aria-selected="false">Travel Planer</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_10"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_10"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_10"
+                                                aria-selected="false">Other Services</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="nav_tabs_link_11"
+                                                data-bs-toggle="tab"
+                                                href="#nav_tabs_content_11"
+                                                role="tab"
+                                                aria-controls="nav_tabs_content_11"
+                                                aria-selected="false">Services</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="s_tabs_content tab-content">
+                                    <div class="tab-pane fade show active" id="nav_tabs_content_1" role="tabpanel" aria-labelledby="nav_tabs_link_1">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="person_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Person</th>
+                                                            <th class="text-center">Age</th>
+                                                            <th class="text-center">Gender</th>
+                                                            <th class="text-center">Type</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="person_tbody">
+                                                        <tr class="add_person_tr">
+                                                            <td>
+                                                                <a href="#" id="add_person" aria-label="Add new Person"
+                                                                    title="Add new Person" 
+                                                                    class="add_person text-primary no-decoration">
+                                                                    <strong>
+                                                                        Add a line
+                                                                    </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav_tabs_content_2" role="tabpanel" aria-labelledby="nav_tabs_link_2">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="tour_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Tour Code</th>
+                                                            <th class="text-center">Days</th>
+                                                            <th class="text-center">Description</th>
+                                                            <th class="text-center">Breakfast</th>
+                                                            <th class="text-center">Lunch</th>
+                                                            <th class="text-center">Dinner</th>
+                                                            <th class="text-center">Sale Amount</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="tour_tbody">
+                                                        <tr class="add_program_tr">
+                                                            <td>
+                                                                <a href="#" id="add_program" aria-label="Add new line" title="Add new line" 
+                                                                class="add_program text-primary no-decoration">
+                                                                    <strong>Add a line</strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="nav_tabs_content_3" role="tabpanel" aria-labelledby="nav_tabs_link_3">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="desti_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Destinations</th>
+                                                            <th class="text-center">Country</th>
+                                                            <th class="text-center">No. Of Nights</th>
+                                                            <th class="text-center">Is Visa Required</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="desti_tbody">
+                                                        <tr class="add_desti_tr">
+                                                            <td>
+                                                                <a href="#" id="add_desti" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_desti text-primary no-decoration">
+                                                                    <strong>Add a line</strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="tab-pane fade" id="nav_tabs_content_4" role="tabpanel" aria-labelledby="nav_tabs_link_4">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="include_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Facility</th>
+                                                            <th class="text-center">Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="include_tbody">
+                                                        <tr class="add_include_tr">
+                                                            <td>
+                                                                <a href="#" id="add_include" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_include text-primary no-decoration">
+                                                                    <strong>
+                                                                        Add a line
+                                                                    </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="tab-pane fade" id="nav_tabs_content_5" role="tabpanel" aria-labelledby="nav_tabs_link_5">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="exclude_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Facility</th>
+                                                            <th class="text-center">Description</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="exclude_tbody">
+                                                        <tr class="add_exclude_tr">
+                                                            <td>
+                                                                <a href="#" id="add_exclude" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_exclude text-primary no-decoration">
+                                                                    <strong>
+                                                                        Add a line
+                                                                    </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="tab-pane fade" id="nav_tabs_content_6" role="tabpanel" aria-labelledby="nav_tabs_link_6">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="site_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Site Names</th>
+                                                            <th class="text-center">Sale Price/Person</th>
+                                                            <th class="text-center">Total Sale Price/Person</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="site_tbody">
+                                                        <tr class="add_site_tr">
+                                                            <td>
+                                                                <a href="#" id="add_site" aria-label="Add new line" title="Add new line" 
+                                                                    class="add_site text-primary no-decoration">
+                                                                    <strong>Add a line</strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="tab-pane fade" id="nav_tabs_content_7" role="tabpanel" aria-labelledby="nav_tabs_link_7">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="visa_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Country</th>
+                                                            <th class="text-center">Visa</th>
+                                                            <th class="text-center">Visa Type</th>
+                                                            <th class="text-center">Visa Sale Price</th>
+                                                            <th class="text-center">No. Of Person</th>
+                                                            <th class="text-center">Total Sale Price/Person</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="visa_tbody">
+                                                        <tr class="add_visa_tr">
+                                                            <td>
+                                                                <a href="#" id="add_visa" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_visa text-primary no-decoration">
+                                                                    <strong> Add a line </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="tab-pane fade" id="nav_tabs_content_8" role="tabpanel" aria-labelledby="nav_tabs_link_8">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="hotel_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Sequence</th>
+                                                            <th class="text-center">Destination</th>
+                                                            <th class="text-center">Hotel Type</th>
+                                                            <th class="text-center">Hotel</th>
+                                                            <th class="text-center">Room Type</th>
+                                                            <th class="text-center">Room Required</th>
+                                                            <th class="text-center">No. Of Days To Stay</th>
+                                                            <th class="text-center">Customer Rent / Night </th>
+                                                            <th class="text-center">Total Customer Price</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="hotel_tbody">
+                                                        <tr class="add_hotel_tr">
+                                                            <td>
+                                                                <a href="#" id="add_hotel" aria-label="Add new line" title="Add new line" 
+                                                                    class="add_hotel text-primary no-decoration">
+                                                                    <strong> Add a line </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="tab-pane fade" id="nav_tabs_content_9" role="tabpanel" aria-labelledby="nav_tabs_link_9">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="travel_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Sequence</th>
+                                                            <th class="text-center">Transport Company </th>
+                                                            <th class="text-center">Booking Date</th>
+                                                            <th class="text-center">Carrier Name</th>
+                                                            <th class="text-center">Transport Type</th>
+                                                            <th class="text-center">Travel Class</th>
+                                                            <th class="text-start">From</th>
+                                                            <th class="text-start">To</th>
+                                                            <th class="text-start">Sale Price(Adult)</th>
+                                                            <th class="text-start">Sale Price(Child)</th>
+                                                            <th class="text-start">Total Sale Price (Adult)</th>
+                                                            <th class="text-start">Total Sale Price (Child)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="travel_tbody">
+                                                        <tr class="add_travel_tr">
+                                                            <td>
+                                                                <a href="#" id="add_travel" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_travel text-primary no-decoration">
+                                                                    <strong> Add a line </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="tab-pane fade" id="nav_tabs_content_10" role="tabpanel" aria-labelledby="nav_tabs_link_10">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="other_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-start">Product</th>
+                                                            <th class="text-center">Sale Price</th>
+                                                            <th class="text-center">Quantity(UOM)</th>
+                                                            <th class="text-center">Unit Of Measure</th>
+                                                            <th class="text-center">Discount</th>
+                                                            <th class="text-center">Sale Subtotal</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="other_tbody">
+                                                        <tr class="add_other_tr">
+                                                            <td>
+                                                                <a href="#" id="add_other" aria-label="Add new line"
+                                                                    title="Add new line" 
+                                                                    class="add_other text-primary no-decoration">
+                                                                    <strong> Add a line </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="tab-pane fade" id="nav_tabs_content_11" role="tabpanel" aria-labelledby="nav_tabs_link_11">
+                                        <div class="col py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm" id="service_table_id">
+                                                    <thead class="bg-100">
+                                                        <tr>
+                                                            <th class="text-center">Insurance</th>
+                                                            <th class="text-center">Insurance Cost For Adults</th>
+                                                            <th class="text-center">Insurance Cost For Child</th>
+                                                            <th class="text-center">Total Cost</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="service_tbody">
+                                                        <tr class="add_service_tr">
+                                                            <td>
+                                                                <a href="#" id="add_service" aria-label="Add new line" title="Add new line" 
+                                                                    class="add_service text-primary no-decoration">
+                                                                    <strong> Add a line </strong>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <div class="clearfix oe_login_buttons mt-3">
+                        <button type="submit" id="submit_booking" class="btn btn-primary pull-left">Book Now</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </t>
+        <script>
+                document.addEventListener("DOMContentLoaded", function() {
+
+                    function handleViaChange() {
+                        var viaSelect = document.getElementById("via");
+                        var agentIdRow = document.getElementById("agent_id");
+                        var agentIdLabel = document.getElementById("label_agent");
+
+                        if (viaSelect.value === "agent") {
+                            agentIdRow.style.display = "block";
+                            agentIdLabel.style.display = "block";
+                        } else {
+                            agentIdRow.style.display = "none";
+                            agentIdLabel.style.display = "none";
+                        }
+                    }
+
+                    var viaSelect = document.getElementById("via");
+                    if (viaSelect) {
+                        viaSelect.addEventListener("change", handleViaChange);
+                    }
+
+                    handleViaChange();
+                });
+            </script>
+    </template>
+
+</odoo>

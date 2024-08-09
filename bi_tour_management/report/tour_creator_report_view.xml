@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_tour_creator_layout">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br/>
+                    <div class="oe_structure"/>
+                    <h3 style="text-align : center;">Tour Creator Report</h3><br/>
+                    <div class="row mt32 mb32">
+                		<div>
+                			<table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Tour Code:</strong>
+                                        <span t-field="o.code"/>
+                                    </td>
+                                    <td>
+                                        <strong>Tour Name:</strong>
+                                        <span t-field="o.product_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Tour Type:</strong>
+                                        <span t-field="o.tour_type"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Date Of Publish:</strong>
+                                        <span t-field="o.current_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Days:</strong>
+                                        <span t-field="o.days"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                			</table>
+                        <br/>
+                        <div>
+                            <h3><strong>Tour Introduction</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <span t-field="o.tour_intro"/>
+                                    </td>      
+                                </tr>
+            			</table>
+                        <br/>
+                        <div>
+                            <h3><strong>Tour Information</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>From</strong>
+                                    </td>
+                                    <td>
+                                        <strong>To</strong>
+                                    </td>  
+                                    <td>
+                                        <strong>Transport Type</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Travel Class</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Distance in Km</strong>
+                                    </td>  
+                                    <td>
+                                        <strong>Time(Hrs)</strong>
+                                    </td>
+                                </tr>
+                                <t t-foreach="o.tour_road_travel_lines" t-as="a">
+                                <tr>
+                                    <td>
+                                        <span t-field="a.from_dest_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.to_dest_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.transport_type_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.travel_class_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.approx_time"/>
+                                    </td>
+                                </tr>
+                                </t>                    
+                			</table>
+                        <br/>
+            			<div>
+                            <h3><strong>Tour Dates</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Season</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Start Date</strong>
+                                    </td>  
+                                    <td>
+                                        <strong>Last Date of Booking</strong>
+                                    </td> 
+                                    <td>
+                                        <strong>Payment Due Date</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Total Seats</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Available Seats</strong>
+                                    </td>             
+                                    <td>
+                                        <strong>Status</strong>
+                                    </td>      
+                                </tr>
+                                <t t-foreach="o.tour_date_lines" t-as="doc">
+                                <tr>
+                                    <td>
+                                        <span t-field="doc.season_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.start_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.book_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.due_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.total_seat"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.available_date"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="doc.state"/>
+                                    </td>
+                                </tr>
+                                </t>
+                			</table>
+                		</div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="tour_cerator_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="bi_tour_management.report_tour_creator_layout" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

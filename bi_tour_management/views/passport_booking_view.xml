@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_passport_booking_tree" model="ir.ui.view">
+			<field name="name">bi.view.passport.booking.tree</field>
+			<field name="model">passport.booking</field>
+			<field name="arch" type="xml">
+
+				<tree string="Passport Booking" decoration-muted="state=='cancel'">
+					<field name="name" />
+					<field name="tour_id" />
+					<field name="tour_book_id" />
+					<field name="tour_date" />
+					<field name="current_date" />
+					<field name="customer_id" />
+					<field name="email_id" />
+					<field name="mobile" />
+					<field name="service_charge" />
+					<field name="state" />
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="bi_view_passport_booking_form" model="ir.ui.view">
+			<field name="name">bi.view.passport.booking.form</field>
+			<field name="model">passport.booking</field>
+			<field name="arch" type="xml">
+
+				<form string="Passport Booking">
+					<header>
+						<button string="Confirm" name="button_confirm" type="object"
+							invisible = "state not in('draft')" />
+						<button string="Verify Document" name="verify_document"
+							type="object" invisible="state not in ('confirm')"
+							 />
+						<button string="Approve By Officer" name="approve_document"
+							type="object" invisible="state not in ('verify')"
+							 />
+						<button string="Create Invoice" name="create_invoice" type="object"
+							invisible="state not in ('approve')"  />
+						<button string="Done" name="method_done" type="object"
+							invisible="state not in ('invoice','approve')" />
+						<button string="Cancel" name="method_cancel" type="object"
+							invisible = "state not in ('confirm','verify','approve')" />
+						<!-- <button string="Issue Passport" name="issue_passport" type="object"
+							states="in_process" attrs="{'invisible': [('state', 'not in', ['in_process'])]}" /> -->
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,verify,approve,invoice,done,cancel" />
+					</header>
+					
+		            <sheet>
+		            	<div class="oe_button_box" name="button_box" position="inside">
+		                    <button class="oe_stat_button" name="button_count_invoice"
+		                            type="object" icon="fa-pencil-square-o" invisible = "invoice_count == 0"> 
+		                        <field name="invoice_count" widget="statinfo" string="Invoice" />
+		                    </button>
+		                </div>
+						<group colspan="3" col="3">
+							<group>
+								<field name="name" />
+								<field name="email_id" readonly="state not in ('draft')" />
+							</group>
+							<group>
+								<field name="customer_id" readonly = "state != ('draft')"/>
+								<field name="current_date" readonly = "state not in ('draft')" />
+								<field name ="company_id"/>
+							</group>
+							<group>
+							<field name="mobile" readonly="state not in ('draft')" />
+	<!-- 						<field name="country_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}" /> -->
+                            </group>
+                        </group>
+						<group  col="3" string="Passport Information">
+							<group>
+							<field name="product_id"
+								
+								readonly = "state not in ('draft')"/>
+							</group>
+							<group>
+							   <field name="scheme_id" readonly = "state not in ('draft')" />
+						    </group>
+						    <group>
+							   <field name="service_charge" readonly = "state not in ('draft')" />
+							</group>
+						</group>
+						<group colspan="3"  col="3" string="Tour Information" >
+							<group>
+							  <field name="tour_book_id" readonly = "state not in ('draft')"/>
+							</group>
+							<group>
+								<field name="tour_id" readonly = "state not in ('draft')"/>
+							</group>
+							<group>
+								<field name="tour_date" readonly = "state not in ('draft')"/>
+							</group>
+						</group>
+						<notebook>
+							<page string="Document Information">
+								
+								<field name="document_line_ids" nolabel="1"
+									readonly = "state not in ('verify', 'draft', 'confirm')">
+									<tree>
+										<field name="document_type_id" />
+										<field name="name"/>
+										<field name="orignal_copy" />
+									</tree>
+									<form>
+										<group>
+											<group>
+												<field name="document_type_id" />
+												<field name="name"/>
+											</group>
+											<group>
+												<field name="orignal_copy"/>
+<!-- 												<field name="visa_book_id"/>
+ -->											</group>
+										</group>
+									</form>
+								</field>
+								
+							</page>
+							<page string="Attachment">
+								
+								<field name="attachment_line_ids" nolabel="1"
+									readonly ="state not in ('verify', 'draft', 'confirm')" />
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+
+			</field>
+		</record>
+
+		<record id="action_passport_booking" model="ir.actions.act_window">
+			<field name="name">Passport Booking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">passport.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<menuitem id="passport" parent="bi_tour_management.menu_visa"
+			name="Passport" />
+
+	
+
+		<menuitem id="submenu_passport" parent="bi_tour_management.passport"
+			action="action_passport_booking"/>
+			
+			
+		
+
+	</data>
+</odoo>

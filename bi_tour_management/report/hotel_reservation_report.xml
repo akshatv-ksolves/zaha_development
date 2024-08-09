@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_hotel_reservation" model="ir.actions.report">
+            <field name="name">Hotel Reservation PDF</field>
+            <field name="model">tour.hotel.reservation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">bi_tour_management.hotel_reservation_report</field>
+            <field name="report_file">bi_tour_management.hotel_reservation_report</field>
+            <field name="print_report_name">('Hotel Reservation PDF')</field>
+            <field name="binding_model_id" ref="model_tour_hotel_reservation"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

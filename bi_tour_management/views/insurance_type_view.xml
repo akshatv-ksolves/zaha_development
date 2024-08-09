@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_insurance_type_tree" model="ir.ui.view">
+			<field name="name">bi.insurance.type.tree</field>
+			<field name="model">insurance.type</field>
+			<field name="arch" type="xml">
+				<tree string="Insurance Type" editable="top">
+					<field name="name" />
+					<field name="code" />
+					<field name="adult_cost" />
+					<field name="child_cost" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_insurance_type" model="ir.actions.act_window">
+			<field name="name">Insurance Type</field>
+			<field name="res_model">insurance.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="submenu_insurance_type" 
+		parent="bi_tour_management.submenu_insurance" 
+		action="action_insurance_type" />
+
+		
+	</data>
+</odoo>

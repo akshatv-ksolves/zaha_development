@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- main menu -->
+		<menuitem name="Passport And Visa" id="menu_visa"
+			web_icon="bi_tour_management,static/description/icon.png" />
+
+		<!-- first menu -->
+		<menuitem id="service_document" parent="bi_tour_management.menu_visa"
+			name="Service Document" />
+
+
+
+		<menuitem id="passport_schemes" parent="bi_tour_management.menu_visa"
+			name="Passport Schemes" />
+		<menuitem id="visa_schemes" parent="bi_tour_management.menu_visa"
+			name="Visa Schemes" />
+		<menuitem id="passport" parent="bi_tour_management.menu_visa"
+			name="Passport" />
+		<menuitem id="visa" parent="bi_tour_management.menu_visa" name="Visa" />
+
+		<!-- Visa -->
+		<record id="action_submenu_visa" model="ir.actions.act_window">
+			<field name="name">Visa Booking</field>
+			<field name="res_model">visa.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="view_visa_booking_tree" model="ir.ui.view">
+			<field name="name">view.visa.booking.tree</field>
+			<field name="model">visa.booking</field>
+			<field name="arch" type="xml">
+
+				<tree string="Visa Booking">
+					<field name="name" />
+					<field name="tour_id" />
+					<field name="tour_book_id" />
+					<field name="tour_date" />
+					<field name="current_date" />
+					<field name="customer_id" />
+					<field name="email_id" />
+					<field name="mobile" />
+					<field name="country_id" />
+					<field name="service_charge" />
+					<field name="state" />
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="view_visa_booking_form" model="ir.ui.view">
+			<field name="name">view.Visa.booking.form</field>
+			<field name="model">visa.booking</field>
+			<field name="arch" type="xml">
+
+				<form string="Visa Booking">
+					<header>
+						<button string="Confirm" name="button_confirm" type="object"
+							invisible="state not in ('draft')"/>
+						<button string="Cancel" name="button_cancel" type="object"
+							invisible="state not in ('draft')" />
+						<button string="Verify Document" name="verify_document"
+							type="object" invisible="state not in ('confirm')"
+							/>
+						<button string="Approve By Officer" name="approve_document"
+							type="object" invisible="state not in ('verify')"
+							/>
+						<button string="Create Invoice" name="create_invoice" type="object"
+							invisible="state not in ('approve')"  />
+						<button string="Send To Visa Office" name="299" invisible="state not in ('invoice')"
+							type="action" target="new"
+							
+							readonly="0" />
+						<button string="Issue Visa" name="issue_visa" type="object"
+							invisible="state not in ('in_process')" />
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,verify,approve,invoice,in_process,done" />
+					</header>
+					<group colspan="4" col="6">
+						<field name="name" />
+						<field name="customer_id" readonly = "state not in ('draft')"  />
+						<field name="current_date" readonly = "state not in ('draft')"  />
+						<field name="email_id" readonly = "state not in ('draft')" />
+						<field name="mobile" readonly = "state not in ('draft')"  />
+						<separator colspan="6" string="Visa Information" />
+						<field name="country_id" readonly = "state not in ('draft')" />
+						<field name="pricelist_id" readonly = "state not in ('draft')"  />
+						<field name="product_id" context="{'default_type':'service'}"
+							domain="[('type', '=', 'service')]" readonly = "state not in ('draft')"  />
+						<field name="scheme_id" readonly = "state not in ('draft')"  />
+						<field name="service_charge" readonly = "state not in ('draft')"  />
+						<separator colspan="6" string="Tour Information" />
+						<field name="tour_book_id" />
+						<field name="tour_id" />
+						<field name="tour_date" />
+						<field name ="company_id"/>
+					</group>
+					<separator colspan="6" />
+					<notebook colspan="4">
+						<page string="Document Information">
+							<group col="7" colspan="3">
+								<field name="document_line_ids" nolabel="1"
+									readonly ="state not in ('verify', 'draft', 'confirm')">
+									<tree>
+										<field name="document_type_id" />
+										<field name="name" />
+										<field name="orignal_copy" />
+									</tree>
+								</field>
+							</group>
+						</page>
+						<page string="Attachment">
+							<group col="7" colspan="3">
+								<field name="attachment_line_ids" select="1" nolabel="1"
+									readonly ="state not in ('verify', 'draft', 'confirm')" />
+							</group>
+						</page>
+						<page string="History">
+							<group col="7" colspan="3">
+								<field name="visa_invoice_ids" nolabel="1" />
+							</group>
+						</page>
+					</notebook>
+				</form>
+
+			</field>
+		</record>
+
+		<menuitem id="submenu_visa" parent="bi_tour_management.visa"
+			action="action_submenu_visa" />
+
+
+
+		<!-- Passport -->
+		<record id="action_submenu_passport" model="ir.actions.act_window">
+			<field name="name">Passport Booking</field>
+			<field name="res_model">passport.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="view_passport_booking_tree" model="ir.ui.view">
+			<field name="name">view.passport.booking.tree</field>
+			<field name="model">passport.booking</field>
+			<field name="arch" type="xml">
+
+				<tree string="Passport Booking">
+					<field name="name" />
+					<field name="tour_id" />
+					<field name="tour_book_id" />
+					<field name="tour_date" />
+					<field name="current_date" />
+					<field name="customer_id" />
+					<field name="email_id" />
+					<field name="mobile" />
+					<field name="service_charge" />
+					<field name="state" />
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="view_passport_booking_form" model="ir.ui.view">
+			<field name="name">view.passport.booking.form</field>
+			<field name="model">passport.booking</field>
+			<field name="arch" type="xml">
+
+				<form string="Passport Booking">
+					<header>
+						<button string="Confirm" name="button_confirm" type="object"
+							invisible="state not in ('draft')" />
+						<button string="Cancel" name="button_cancel" type="object"
+							invisible="state not in ('draft')" />
+						<button string="Verify Document" name="verify_document"
+							type="object" invisible="state not in ('confirm')"
+							/>
+						<button string="Approve By Officer" name="approve_document"
+							type="object" invisible="state not in ('verify')"
+							 />
+						<button string="Create Invoice" name="create_invoice" type="object"
+							invisible="state not in ('approve')" />
+						<button string="Send To Passport Office" name="298"
+							type="action" target="new"
+							invisible = "state not in ('invoice')"
+							readonly="0" />
+						<button string="Issue Passport" name="issue_passport" type="object"
+							invisible="state not in ('in_process')"  />
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,verify,approve,invoice,in_process,done" />
+					</header>
+					<group colspan="4" col="6">
+						<field name="name" />
+						<field name="customer_id" readonly = "state not in ('draft')" />
+						<field name="current_date" readonly = "state not in ('draft')" />
+						<field name="email_id" readonly = "state not in ('draft')" />
+						<field name="mobile" readonly = "state not in ('draft')" />
+						<separator colspan="6" string="Passport Information" />
+						<field name="pricelist_id" readonly = "state not in ('draft')"/>
+						<field name="product_id"
+							domain="[('type', '=', 'service')]" readonly = "state not in ('draft')" />
+						<field name="scheme_id" readonly = "state not in ('draft')" />
+						<field name="service_charge" readonly = "state not in ('draft')" />
+						<separator colspan="6" string="Tour Information" />
+						<field name="tour_book_id" />
+						<field name="tour_id" />
+						<field name="tour_date" />
+						<field name ="company_id"/>
+					</group>
+					<separator colspan="6" />
+					<notebook colspan="4">
+						<page string="Document Information">
+							<group col="7" colspan="3">
+								<field name="document_line_ids" nolabel="1"
+									readonly ="state not in ('verify', 'draft', 'confirm')">
+									<tree>
+										<field name="document_type_id" />
+										<field name="name" />
+										<field name="orignal_copy" />
+									</tree>
+								</field>
+							</group>
+						</page>
+						<page string="Attachment">
+							<group col="7" colspan="3">
+								<field name="attachment_line_ids" nolabel="1"
+									readonly="state not in ('verify', 'draft', 'confirm')" />
+							</group>
+						</page>
+						<page string="History">
+							<group col="7" colspan="3">
+								<field name="passport_invoice_ids" nolabel="1" />
+							</group>
+						</page>
+					</notebook>
+				</form>
+
+			</field>
+		</record>
+
+		<menuitem id="submenu_passport" parent="bi_tour_management.passport"
+			action="action_submenu_passport" />
+
+
+		<!-- Visa Schemes -->
+		<record id="action_submenu_visa_schemes" model="ir.actions.act_window">
+			<field name="name">Visa Schemes</field>
+			<field name="res_model">visa.scheme</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="view_visa_scheme_tree" model="ir.ui.view">
+			<field name="name">view.visa.scheme.tree</field>
+			<field name="model">visa.scheme</field>
+			<field name="arch" type="xml">
+
+				<tree string="Visa Scheme" editable="top">
+					<field name="name" />
+					<field name="duration" />
+					<field name="cost_price" />
+					<field name="service_cost" />
+				</tree>
+
+			</field>
+		</record>
+
+		<menuitem id="submenu_visa_schemes" parent="bi_tour_management.visa_schemes"
+			action="action_submenu_visa_schemes" />
+
+		<!-- Service Schemes -->
+		<record id="action_submenu_passport_schemes" model="ir.actions.act_window">
+			<field name="name">Passport Schemes</field>
+			<field name="res_model">service.scheme</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="view_service_scheme_tree" model="ir.ui.view">
+			<field name="name">view.service.scheme.tree</field>
+			<field name="model">service.scheme</field>
+			<field name="arch" type="xml">
+
+				<tree string="Service Scheme" editable="top">
+					<field name="name" />
+					<field name="duration" />
+					<field name="service_cost" />
+				</tree>
+
+			</field>
+		</record>
+
+		<menuitem id="submenu_passport_schemes" parent="bi_tour_management.passport_schemes"
+			action="action_submenu_passport_schemes" />
+
+		<!-- Service Document -->
+		<record id="action_submenu_service_document" model="ir.actions.act_window">
+			<field name="name">Service Document</field>
+			<field name="res_model">document.management</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="view_service_document_tree" model="ir.ui.view">
+			<field name="name">view.document.management.tree</field>
+			<field name="model">document.management</field>
+			<field name="arch" type="xml">
+
+				<tree string="Document Type" editable="top">
+					<field name="name" />
+					<field name="description" />
+				</tree>
+			</field>
+		</record>
+		<menuitem id="submenu_service_document" parent="bi_tour_management.service_document"
+			action="action_submenu_service_document" />
+
+	</data>
+</odoo>

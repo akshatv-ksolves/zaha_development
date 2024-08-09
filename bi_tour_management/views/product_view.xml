@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="bi_view_product_inherit_form" model="ir.ui.view">
+			<field name="name">bi.view.product.inherit.form</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//div[@name='options']" position="inside">
+					<div>
+						<field name="is_tour" />
+						<label for="is_tour" />
+					</div>
+				</xpath>
+				<!-- <xpath expr="//notebook/page[@name='internal_notes']" position="after"> -->
+				<!-- <page string="Tour History" name="tour_history" > -->
+				<!-- <field name="tour_partner_history_ids"/> -->
+				<!-- </page> -->
+				<!-- </xpath> -->
+			</field>
+		</record>
+	</data>
+</odoo>

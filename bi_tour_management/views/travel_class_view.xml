@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_travel_class_tree" model="ir.ui.view">
+			<field name="name">bi.view.travel.class.tree</field>
+			<field name="model">travel.class</field>
+			<field name="arch" type="xml">
+				<tree string="Travel Class">
+					<field name="name" />
+					<field name="code" />
+					<field name="transport_type_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="bi_view_travel_class_form" model="ir.ui.view">
+			<field name="name">bi.view.travel.class.form</field>
+			<field name="model">travel.class</field>
+			<field name="arch" type="xml">
+				<form string="Travel Class">
+					<sheet>
+						<group colspan="2" col="4">
+							<field name="name" />
+							<field name="code" />
+							<field name="transport_type_id" context="{'default_type': 'service'}"
+								domian="[('type','=','service')]" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_travel_class"
+			model="ir.actions.act_window">
+			<field name="name">Travel Class</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">travel.class</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id="submenu_travel_class"
+			parent="bi_tour_management.submenu_transport_configuration" 
+			action="action_travel_class" />
+			
+	</data>
+</odoo>

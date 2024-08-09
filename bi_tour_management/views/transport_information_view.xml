@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_transport_information_tree" model="ir.ui.view">
+			<field name="name">bi.view.transport.information.tree</field>
+			<field name="model">transport.information</field>
+			<field name="arch" type="xml">
+				<tree string="Transport Information">
+					<field name="partner_id"
+						context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1,'default_is_hotel': 0,}"
+						domain="[('is_hotel','=',False)]" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="bi_view_transport_information_form" model="ir.ui.view">
+			<field name="name">bi.view.transport.information.form</field>
+			<field name="model">transport.information</field>
+			<field name="arch" type="xml">
+				<form string="Transport Information">
+					<header>
+						<button string="Confirm" name="button_confirm" invisible="state not in ('draft')"
+							type="object" modifiers="{'invisible': [('state', 'not in', ['draft'])]}" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm"
+							modifiers="{}" />
+					</header>
+					<sheet>
+						<group colspan="4" col="6">
+							<field name="partner_id" select="1"
+								context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1,'default_is_hotel': 0,}"
+								domain="[('is_hotel','=',False)]" can_create="true" can_write="true"
+								modifiers="{'required': true}" />
+							<field name="name" invisible="1" />
+							<field name ="company_id"/>
+						</group>
+						<separator colspan="6" string="Other Information" />
+						<notebook colspan="4">
+							<page string="Transport Type Information">
+								
+								<field name="transport_type_info_ids" nolabel="1">
+									<tree editable="top">
+										<field name="transport_carrier_id" style="width:50px;"/>
+										<field name="transport_type_id"
+											context="{'default_type': 'service'}"
+											domain="[('type','=','service')]" style="width:50px;"/>
+										<field name="travel_class_id" style="width:50px;" />
+										<field name="name" style="width:50px;"/>
+										<field name="from_dest_id" style="width:50px;"/>
+										<field name="to_dest_id" style="width:50px;"/>
+										<field name="from_date" style="width:50px;" />
+										<field name="to_date" style="width:50px;"/>
+										<field name="cost_price" style="width:50px;"/>
+										<field name="cost_price_child" style="width:50px;"/>
+										<field name="sale_price" style="width:50px;"/>
+										<field name="sale_price_child" style="width:50px;"/>
+									</tree>
+								</field>
+								
+							</page>
+							<page string="Transport Account Information">
+
+								<group>
+									<field name="transport_recv_acc" />
+									<field name="transport_payble_acc" />
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_transport_information" model="ir.actions.act_window">
+			<field name="name">Transport Information</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">transport.information</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="submenu_transport_information" parent="bi_tour_management.submenu_transport"
+			action="action_transport_information" />
+		
+	</data>
+</odoo>

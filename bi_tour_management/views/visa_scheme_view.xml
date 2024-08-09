@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<menuitem id="visa_schemes" parent="bi_tour_management.menu_visa"
+			name="Visa Schemes" />
+
+		<record id="bi_view_visa_scheme_tree" model="ir.ui.view">
+			<field name="name">bi.view.visa.scheme.tree</field>
+			<field name="model">visa.scheme</field>
+			<field name="arch" type="xml">
+				<tree string="Visa Scheme" editable="top">
+					<field name="name" />
+					<field name="duration" />
+					<field name="cost_price" />
+					<field name="service_cost" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_visa_scheme" model="ir.actions.act_window">
+			<field name="name">Visa Schemes</field>
+			<field name="res_model">visa.scheme</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<menuitem id="submenu_visa_scheme" 
+			parent="bi_tour_management.visa_schemes"
+			action="action_visa_scheme" />
+
+	</data>
+</odoo>

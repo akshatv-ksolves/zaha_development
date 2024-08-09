@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="bi_view_tour_preference_tree" model="ir.ui.view">
+            <field name="name">bi.view.tour.preference.tree</field>
+            <field name="model">tour.preference</field>
+            <field name="arch" type="xml">
+                <tree string="Tour Preference">
+                    <field name="name"/>
+                    <field name="lead_id"/>
+                    <field name="current_date"/>
+                    <field name="adult"/>
+                    <field name="child"/>
+                    <field name="email_id"/>
+                    <field name="mobile"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="bi_view_tour_preference_form" model="ir.ui.view">
+            <field name="name">bi.view.tour.preference.form</field>
+            <field name="model">tour.preference</field>
+            <field name="arch" type="xml">
+                <form string="Tour Preference">
+                    <header>
+                        <button string="Confirm" name="btn_confirm" invisible="state not in ('draft')"
+                                type="object"/>
+                        <button string="Cancel" name="action_cancel" invisible="state not in ('draft')" type="object"
+                        />
+                        <button string="Tour Booking" name="bi_tour_management.action_tour_booking_wizard"
+                                class="oe_highlight"
+                                type="action"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm"/>
+                    </header>
+                    <sheet>
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                        <group colspan="6" col="3">
+                            <group>
+                                <field name="current_date" readonly="state not in ('draft')"/>
+                                <field name="lead_id" domain="[('stage_id','=','New')]"
+                                       readonly="state not in ('draft')"/>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"
+                                           readonly="state not in ('draft')"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"
+                                           readonly="state not in ('draft')"/>
+                                    <field name="city" placeholder="City" class="o_address_city"
+                                           readonly="state not in ('draft')"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State"
+                                           options='{"no_open": True}' readonly="state not in ('draft')"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"
+                                           readonly="state not in ('draft')"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options='{"no_open": True, "no_create": True}'
+                                           readonly="state not in ('draft')"/>
+
+                                </div>
+                            </group>
+                            <group>
+                                <field name="email_id" readonly="state not in ('draft')"/>
+                                <field name="mobile" readonly="state not in ('draft')"/>
+                                <!-- <field name="country_id" attrs="{'readonly': [('state', 'not in', ['draft'])]}" /> -->
+                                <field name="contact_name" readonly="state not in ('draft')"/>
+                                <field name="agent_id" context="{'default_agent': 1}"
+                                       domain="[('agent','=',True)]" invisible="via != ('agent')"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="adult" readonly="state not in ('draft')"/>
+                                <field name="child" readonly="state not in ('draft')"/>
+                                <field name="via" readonly="state not in ('draft')"/>
+                            </group>
+                        </group>
+                        <separator colspan="6" string="Tour Information"/>
+                        <group col="4" colspan="3">
+                            <group>
+                                <field name="checkin_date" readonly="state not in ('draft')"/>
+                            </group>
+                            <group>
+                                <field name="checkout_date" readonly="state not in ('draft')"/>
+                            </group>
+                            <group>
+                                <field name="tour_low_price" readonly="state not in ('draft')"/>
+                            </group>
+                            <group>
+                                <field name="tour_high_price" nolabel="1"
+                                       readonly="state not in ('draft')"/>
+                            </group>
+
+                        </group>
+                        <notebook colspan="6">
+                            <page string="Destinations Preferences">
+
+                                <field name="destination_lines_ids" nolabel="1"
+                                       readonly="state not in ('draft')">
+                                    <tree>
+                                        <field name="tour_destination_id"/>
+                                        <field name="country_id"/>
+                                        <field name="name"/>
+                                    </tree>
+
+                                </field>
+
+                            </page>
+                            <page string="Hotel Preferences">
+                                <group col="3" colspan="4">
+                                    <group>
+                                        <field name="hotel_type_id"
+                                               readonly="state not in ('draft')"/>
+                                        <field name="room_type_id"
+                                               readonly="state not in ('draft')"/>
+                                        <field name="room_req"
+                                               readonly="state not in ('draft')"/>
+                                    </group>
+                                    <group>
+
+                                        <field name="low_price"
+                                               readonly="state not in ('draft')"/>
+                                    </group>
+                                    <group>
+                                        <field name="high_price" nolabel="1"
+                                               readonly="state not in ('draft')"/>
+                                    </group>
+
+                                </group>
+                            </page>
+                            <page string="Transport Preferences">
+
+                                <field name="transport_ids" nolabel="1"
+                                       readonly="state not in ('draft')">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="product_id"/>
+                                        <field name="travel_class_id"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_tour_preference" model="ir.actions.act_window">
+            <field name="name">Tour Inquiry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">tour.preference</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="submenu_custom_tour_preference" parent="bi_tour_management.submenu_tour"
+                  action="action_tour_preference" sequence="0"/>
+
+    </data>
+</odoo>

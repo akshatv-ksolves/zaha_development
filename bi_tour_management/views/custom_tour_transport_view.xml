@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_custom_tour_transport_form" model="ir.ui.view">
+			<field name="name">bi.view.custom.tour.transport.form</field>
+			<field name="model">custom.tour.transport</field>
+			<field name="arch" type="xml">
+				<form string="Transport Preference">
+					<group>
+						<field name="name" />
+						<field name="product_id" domian="[('type','=','service')]"
+							context="{'default_type':'service','search_default_type':'service'}" />
+						<field name="travel_class_id" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="action_custom_tour_transport" model="ir.actions.act_window">
+			<field name="name">transport Preference</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.transport</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+	</data>
+</odoo>

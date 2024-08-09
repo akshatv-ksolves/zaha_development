@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		
+
+		<record id="bi_view_transport_booking_form" model="ir.ui.view">
+			<field name="name">bi.view.transport.booking.form</field>
+			<field name="model">transport.booking</field>
+			<field name="arch" type="xml">
+				<form string="Transport Booking">
+					<header>
+						<button string="Confirm" name="button_confirm" type="object"
+							invisible="state not in ('draft')"/>
+						<button string="Cancel" name="button_cancel" type="object"
+							invisible="state not in ('draft')"  />
+						<button string="Send To Transporter" name="send_to_hotel"
+							invisible="state not in ('confirm')" type="object"
+							/>
+						<button string="Approval From Transporter" name="make_approval"
+							invisible="state not in ('request','confirm')" type="object"
+							 />
+						<button string="Confirm Booking" name="create_invoice"
+							invisible="state not in ('approve')" type="object"
+							/>
+						<!-- <button string="Issue Ticket" name="issue_ticket" states="invoiced"
+							type="object" attrs="{'invisible': [('state', 'not in', ['invoiced'])]}" /> -->
+						<button string="Done" name="make_done" invisible="state not in ('issue')" type="object"
+							 />
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,request,approve,invoiced,issue,done" />
+					</header>
+				    <sheet>
+						<div class="oe_button_box" name="button_box" position="inside">
+			                    <button class="oe_stat_button" name="button_count_invoice"
+			                            type="object" icon="fa-pencil-square-o" invisible ="invoice_count == 0"> 
+			                        <field name="invoice_count" widget="statinfo" string="Invoice" />
+			                    </button>
+			                </div>
+						<group colspan="4" col="2">
+							<group >
+								<field name="name"  class="col-xs-3" />
+		                        <field name="mobile" readonly = "state not in ('draft')"  />
+								<field name="current_date" readonly = "state not in ('draft')" />
+								<field name="customer_id" readonly = "state not in ('draft')" />
+								<field name ="company_id"/>
+							</group>
+							<group>
+
+								<field name="email_id" readonly = "state not in ('draft')" />
+								<field name="adult"  readonly = "state not in ('draft')"  />
+								<field name="child"  readonly = "state not in ('draft')" />
+								<field name="pricelist_id"  readonly = "state not in ('draft')"  />
+							</group>
+						</group>
+						<separator colspan="6" string="Transport Information" />
+						<group colspan="4" col="2">
+							<group>
+								<field name="transport_id"  readonly = "state not in ('draft')"  />
+								<field name="checkin_date"  readonly = "state not in ('draft')"  />
+								<field name="transport_carrier_id"  readonly = "state not in ('draft')"  />
+							</group>
+							<group>
+								<field name="transport_type_id" context="{'default_type': 'service'}"
+									domain="[('type','=','service')]"  readonly = "state not in ('draft')"  />
+								<field name="travel_class_id"
+									domain="[('transport_type_id', '=', transport_type_id)]"  readonly = "state not in ('draft')"  />
+								<field name="from_destination_id"  readonly = "state not in ('draft')"  />
+								<field name="to_destination_id"  readonly = "state not in ('draft')"  />
+						    </group>
+							<!-- <label string="" />
+							<label string="" />
+							<label string="" /> -->
+							<!-- <button string="Compute" name="compute_amt" type="object" /> -->
+						</group>
+						<separator colspan="6" string="Tour Information" />
+						<group colspan="4" col="2">
+							<group>
+								<field name="tour_id" />
+								<field name="tour_book_id" />
+								<field name="tour_date_id" />
+								<field name="pnr_no"
+									readonly ="state in ('issue', 'book', 'done', 'invoiced')" />
+							</group>
+							<group>
+								<field name="carrier_id"
+									readonly = "state in ('issue', 'book', 'done', 'invoiced')" />
+								<field name="arrival_date"
+									readonly ="state in ('issue', 'book', 'done', 'invoiced')" />
+								<field name="depart_date"
+									readonly ="state in ('issue', 'book', 'done', 'invoiced')" />
+						    </group>
+						</group>
+						<separator colspan="4" string="Transport Pricing" />
+						<group colspan="4" col="2">
+							<group>
+								<field name="cost_price" />
+								<field name="cost_price_child" />
+							</group>
+							<group>
+								<field name="sale_price" />
+								<field name="sale_price_child" />
+							</group>
+						</group>
+						<notebook colspan="6">
+							<page string="Customer Information" >
+								
+								<field name="customer_line_ids" nolabel="1"
+									 readonly = "state in ('done')" >
+									<tree editable="bottom">
+										<field name="partner_id"
+											context="{'default_customer': 1,  'default_supplier': 0, 'default_is_hotel': 0}"
+											domain="[('is_hotel','=',False)]" />
+										<field name="name" />
+										<field name="gender" />
+										<field name="type" string="Adult/Child" />
+										<field name="room_no" />
+									</tree>
+								</field>
+							</page>
+							<page string="Tax Information">
+								
+								<field name="tax_id" nolabel="1"
+									 readonly = "state not in ('draft')"  />
+							</page>
+							<div>
+							<group class="oe_subtotal_footer oe_right"
+								name="sale_total">
+								<field name="untax_amt" readonly="1" widget="monetary"
+									options="{'currency_field': 'pricelist_id'}" />
+								<field name="tax_amt" readonly="1" widget="monetary"
+									options="{'currency_field': 'pricelist_id'}" />
+								<div class="oe_subtotal_footer_separator oe_inline">
+									<label for="total_amt" />
+								</div>
+								<field name="total_amt" widget="monetary"
+									options="{'currency_field': 'pricelist_id'}" nolabel="1"
+									class="oe_subtotal_footer_separator" />
+								<field name="total_amt_transport" widget="monetary"
+									options="{'currency_field': 'pricelist_id'}" />
+							</group>
+						</div>
+						</notebook>
+						
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="bi_view_transport_booking_tree" model="ir.ui.view">
+			<field name="name">bi.view.transport.booking.tree</field>
+			<field name="model">transport.booking</field>
+			<field name="arch" type="xml">
+				<tree string="Transport Booking">
+					<field name="name" />
+					<field name="tour_book_id" />
+					<field name="tour_date_id" />
+					<field name="current_date" />
+					<field name="customer_id" />
+					<field name="mobile" />
+					<field name="transport_id" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_transport_booking" model="ir.actions.act_window">
+			<field name="name">Transport Booking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">transport.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		
+		<menuitem id="submenu_transport" parent="bi_tour_management.menu_tour"
+			name="Transport" sequence="4" />
+		
+		
+		<menuitem id="submenu_transport_booking" 
+		parent="bi_tour_management.submenu_transport"
+		action="action_transport_booking" />
+
+	</data>
+</odoo>

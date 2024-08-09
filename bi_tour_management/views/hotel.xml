@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="action_hotel_type_configuration" model="ir.actions.act_window">
+			<field name="name">Hotel Type</field>
+			<field name="res_model">hotel.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_submenu_hotel_reservation" model="ir.actions.act_window">
+			<field name="name">Hotel Reservation</field>
+			<field name="res_model">tour.hotel.reservation</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<record id="action_room_type_configuration" model="ir.actions.act_window">
+			<field name="name">Room Type</field>
+			<field name="res_model">room.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="action_hotel_information_configuration" model="ir.actions.act_window">
+			<field name="name">Hotel information</field>
+			<field name="res_model">hotel.information</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_service_type_configuration" model="ir.actions.act_window">
+			<field name="name">Service Type</field>
+			<field name="res_model">service.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="view_hotel_type_tree" model="ir.ui.view">
+			<field name="name">view.hotel.type.tree</field>
+			<field name="model">hotel.type</field>
+			<field name="arch" type="xml">
+				<tree string="Hotel Type" editable="bottom">
+					<field name="name" />
+					<field name="description" modifiers="{}" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_service_type_tree" model="ir.ui.view">
+			<field name="name">view.service.type.tree</field>
+			<field name="model">service.type</field>
+			<field name="arch" type="xml">
+				<tree string="Service Type" editable="top">
+					<field name="service_id" />
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_room_type_tree" model="ir.ui.view">
+			<field name="name">view.room.type.tree</field>
+			<field name="model">room.type</field>
+			<field name="arch" type="xml">
+				<tree string="Room Type" editable="top">
+					<field name="room_type" context="{'default_type': 'service'}"
+						domain="[('type','=','service')]" />
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_hotel_information_tree" model="ir.ui.view">
+			<field name="name">view.hotel_information.tree</field>
+			<field name="model">hotel.information</field>
+			<field name="arch" type="xml">
+				<tree string="Hotel Information">
+					<field name="hotel_id" select="1" />
+					<field name="hotel_type_id" />
+					<field name="state" select="1" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_hotel_information_form" model="ir.ui.view">
+			<field name="name">view.hotel_information.form</field>
+			<field name="model">hotel.information</field>
+			<field name="arch" type="xml">
+				<form string="Hotel Information">
+					<header>
+						<button string="Confirm" name="confirm_info" invisible="state not in ('draft')"
+							type="object" modifiers="{'invisible': [['state', 'not in', ['draft']]]}" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+					</header>
+					<group colspan="4" col="6">
+
+						<field name="hotel_id" context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1,'default_is_hotel': 1}" domain="[('is_hotel','=',True)]" />
+						<field name="hotel_type_id" />
+						<field name="name" />
+						<field name ="company_id"/>
+					</group>
+					<separator colspan="6" string="Other Information" />
+					<notebook colspan="4">
+						<page string="Room Information">
+							<group col="7" colspan="3">
+								<field name="room_info_ids" select="1" nolabel="1"
+									modifiers="{}">
+									<tree editable="top">
+										<field name="room_type_id" />
+										<field name="name" />
+										<field name="cost_price" />
+										<field name="sale_price" />
+									</tree>
+								</field>
+							</group>
+						</page>
+						<page string="Service Information">
+							<group col="7" colspan="3">
+								<field name="service_info_ids" select="1" nolabel="1"
+									modifiers="{}">
+									<tree editable="top">
+										<field name="service_id" />
+										<field name="name" />
+										<field name="cost_price" />
+				
+									</tree>
+								</field>
+							</group>
+						</page>
+						<page string="Accounting Information">
+							<group col="7" colspan="3">
+								<field name="hotel_recv_acc" required="1" />
+								<field name="hotel_payble_acc" required="1" />
+							</group>
+						</page>
+					</notebook>
+					<separator colspan="6" string="Hotel Images" />
+					<group colspan="4" col="6">
+						<field name="hotel_img1" nolabel="1" img_width="200"
+							img_height="200" width="200" widget="image" />
+						<field name="hotel_img2" nolabel="1" img_width="200"
+							img_height="200" width="200" widget="image" />
+						<field name="hotel_img3" nolabel="1" img_width="200"
+							img_height="200" width="200" widget="image" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_tour_hotel_reservation_tree" model="ir.ui.view">
+			<field name="name">view.tour.hotel.reservation.tree</field>
+			<field name="model">tour.hotel.reservation</field>
+			<field name="arch" type="xml">
+				<tree string="Hotel Reservation">
+					<field name="name" />
+					<field name="customer_id" />
+					<field name="checkin_date" />
+					<field name="checkout_date" />
+					<field name="email_id" />
+					<field name="mobile" />
+					<field name="tour_book_id" />
+					<field name="tour_start_date" />
+					<field name="hotel_id" />
+					<field name="adult" />
+					<field name="child" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="view_tour_hotel_reservation_form" model="ir.ui.view">
+			<field name="name">view.tour.hotel.reservation.form</field>
+			<field name="model">tour.hotel.reservation</field>
+			<field name="arch" type="xml">
+				<form string="Tour Hotel Room Reservation">
+					<header>
+						<button string="Confirm" name="make_confirm" invisible="state not in ('draft')"
+							type="object" invisible = "state not in ('draft')" />
+						<button string="Cancel" name="button_cancel" type="object"
+							invisible="state not in ('draft')" invisible = "state not in ('draft')" />
+						<button string="Send To Hotel" name="send_to_hotel" invisible="state not in ('confirm')"
+							type="object" invisible = "state not in ('confirm')"  />
+						<button string="Approval From Hotel" name="make_approval"
+							invisible="state not in ('request')" type="object"
+							invisible = "state not in ('request')"  />
+						<button string="Confirm Booking" name="make_booking"
+							invisible="state not in ('approve')" type="object"
+							invisible = "state not in ('approve')"  />
+						<button string="Issue Ticket" name="issue_ticket" invisible="state not in ('book')"
+							type="object" invisible = "state not in ('book')" />
+						<button string="Done" name="make_done" invisible="state not in ('issue')" type="object"
+							invisible = "state not in ('issue')"  />
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,request,approve,book,issue,done" />
+					</header>
+					<group colspan="4" col="6">
+						<field name="name" />
+						<field name="current_date" readonly ="state not in ('draft')" />
+						<field name="customer_id" readonly ="state not in ('draft')" />
+						<field name="email_id" readonly ="state not in ('draft')"/>
+						<field name="mobile" readonly ="state not in ('draft')" />
+						<field name="adult" readonly ="state not in ('draft')" />
+						<field name="child" readonly ="state not in ('draft')" />
+						<field name="pricelist_id" readonly ="state not in ('draft')"/>
+						<field name ="company_id"/>
+					</group>
+					<separator colspan="6" string="Hotel Information" />
+					<group colspan="4" col="6">
+						<field name="hotel_type_id" readonly ="state not in ('draft')" />
+						<field name="hotel_id"
+							context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1,'default_is_hotel': 1 ,'default_hotel_type_id':hotel_type_id}"
+							domain="[('hotel_type_id', '=', hotel_type_id),('is_hotel','=',True)]"
+							readonly ="state not in ('draft')" />
+						<field name="room_type_id" readonly ="state not in ('draft')"/>
+						<field name="room_rent" readonly ="state not in ('draft')" />
+						<field name="hotel_rent" readonly ="state not in ('draft')" />
+						<field name="checkin_date" readonly ="state not in ('draft')" />
+						<field name="checkout_date" readonly ="state not in ('draft')"/>
+						<field name="room_required" readonly ="state not in ('draft')" />
+						<field name="no_of_days" />
+						<label string="" />
+						<label string="" />
+						<label string="" />
+						<label string="" />
+						<label string="" />
+						<button string="Compute" name="compute_amt" type="object" />
+					</group>
+					<separator colspan="6" string="Tour Information" />
+					<group col="8" colspan="4">
+						<field name="tour_id" />
+						<field name="tour_start_date" />
+						<field name="tour_book_id" />
+						<field name="destination_id" />
+					</group>
+					<notebook colspan="6">
+						<page string="Customer Information">
+							<group col="7" colspan="3">
+								<field name="tour_customer_ids" nolabel="1"
+									readonly ="state in ('draft')">
+
+									<tree editable="top">
+										<field name="partner_id" />
+										<field name="name" />
+										<field name="gender" />
+										<field name="type" string="Adult/Child" />
+										<field name="room_no" />
+									</tree>
+
+								</field>
+							</group>
+						</page>
+						<page string="Tax Information">
+							<group col="7" colspan="3">
+								<field name="tax_ids" nolabel="1"
+									readonly = "state not in ('draft')" />
+							</group>
+						</page>
+						<page string="History">
+							<group col="7" colspan="3">
+								<field name="hotel_room_reserve_invoice_ids" nolabel="1" />
+							</group>
+							<group col="7" colspan="3">
+								<field name="hotel_room_reserve_supplier_invoice_ids"
+									nolabel="1" />
+							</group>
+						</page>
+					</notebook>
+					<group class="oe_subtotal_footer oe_right" colspan="2"
+						name="sale_total">
+						<field name="untax_amt" readonly="1" widget="monetary"
+							options="{'currency_field': 'currency_id'}" />
+						<field name="tax_amt" readonly="1" widget="monetary"
+							options="{'currency_field': 'currency_id'}" />
+						<div class="oe_subtotal_footer_separator oe_inline">
+							<label for="total_amt" />
+						</div>
+						<field name="total_amt" widget="monetary"
+							options="{'currency_field': 'currency_id'}" readonly="1" nolabel="1"
+							class="oe_subtotal_footer_separator" />
+						<field name="hotel_invoice_amt" readonly="1" widget="monetary"
+							options="{'currency_field': 'currency_id'}" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+
+
+
+
+		<menuitem id="submenu_hotel_type_configuration" parent="bi_tour_management.submenu_hotel"
+			action="action_hotel_type_configuration" />
+		<menuitem id="submenu_room_type_configuration" parent="bi_tour_management.submenu_hotel"
+			action="action_room_type_configuration" />
+		<menuitem id="submenu_service_type_configuration" parent="bi_tour_management.submenu_hotel"
+			action="action_service_type_configuration" />
+
+		<menuitem id="submenu_hotel_information_configuration"
+			parent="bi_tour_management.submenu_hotel" action="action_hotel_information_configuration" />
+		<menuitem id="submenu_hotel_reservation" parent="bi_tour_management.submenu_hotel"
+			action="action_submenu_hotel_reservation" />
+
+
+
+
+
+
+
+	</data>
+</odoo>

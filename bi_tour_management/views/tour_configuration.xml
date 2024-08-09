@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+
+
+
+		<record id="tour_hotel_action" model="ir.actions.act_window">
+			<field name="name">Hotel Tour</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.destination.line</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,fworm</field>
+		</record>
+
+
+		<record id="action_configuration_tour_package_type" model="ir.actions.act_window">
+			<field name="name">Package Type</field>
+			<field name="res_model">tour.package.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+		<record id="action_configuration_tour_package" model="ir.actions.act_window">
+			<field name="name">Tour Packages</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.package.info</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_configuration_tour_season" model="ir.actions.act_window">
+			<field name="name">Tour Season</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.season</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_configuration_tour_destination" model="ir.actions.act_window">
+			<field name="name">Tour Destination</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.destination</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_configuration_tour_facility" model="ir.actions.act_window">
+			<field name="name">Tour Facility</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.facility</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_configuration_tour_payment_policy" model="ir.actions.act_window">
+			<field name="name">Tour Payment Policy</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.payment.policy</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+
+		<record id="action_configuration_tour_deduction_policy" model="ir.actions.act_window">
+			<field name="name">Tour Deduction Policy</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.deduction.policy</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree</field>
+		</record>
+		<record id="view_tour_package_type_tree" model="ir.ui.view">
+			<field name="name">view.tour.package.type.tree</field>
+			<field name="model">tour.package.type</field>
+			<field name="arch" type="xml">
+				<tree editable="top">
+					<field name="name" />
+					<field name="code" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_tour_package_type_form" model="ir.ui.view">
+			<field name="name">view.tour.package.type.form</field>
+			<field name="model">tour.package.type</field>
+			<field name="arch" type="xml">
+				<form string="Packages">
+					<group colspan="4" col="6">
+						<field name="name" select="1" />
+						<field name="code" />
+						<field name ="company_id"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_tour_packages_tree" model="ir.ui.view">
+			<field name="name">view.tour.packages.tree</field>
+			<field name="model">tour.package.info</field>
+			<field name="arch" type="xml">
+				<tree>
+					<field name="name" />
+					<field name="package_type_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_tour_packages_form" model="ir.ui.view">
+			<field name="name">view.tour.packages.form</field>
+			<field name="model">tour.package.info</field>
+			<field name="arch" type="xml">
+				<form string="Tour Packages">
+					<group colspan="4" col="6">
+						<field name="package_type_id" />
+						<field name="name" />
+						<field name ="company_id"/>
+					</group>
+					<notebook colspan="6">
+						<page string="Tour Information">
+							<group col="7" colspan="3">
+								<field name="tour_line_ids" nolabel="1" />
+
+							</group>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_tour_season_tree" model="ir.ui.view">
+			<field name="name">view.tour.season.tree</field>
+			<field name="model">tour.season</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Season" editable="top">
+					<field name="name" />
+					<field name="code" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_tour_destinations_tree" model="ir.ui.view">
+			<field name="name">view.tour.destination.tree</field>
+			<field name="model">tour.destination</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Destinations" editable="top">
+					<field name="name" />
+					<field name="code" />
+					<field name="country_id" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_tour_facility_tree" model="ir.ui.view">
+			<field name="name">view.tour.facility.tree</field>
+			<field name="model">tour.facility</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Facility" editable="top">
+					<field name="name" />
+					<field name="code" />
+					<field name="desc" modifiers="{}" />
+				</tree>
+			</field>
+		</record>
+
+
+		<record id="view_tour_payment_policy_tree" model="ir.ui.view">
+			<field name="name">view.tour.payment.policy.tree</field>
+			<field name="model">tour.payment.policy</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Payment Policy" editable="top">
+					<field name="name" select="1" />
+					<field name="before_book_date_perc" />
+					<field name="before_pay_date_perc" readonly="1" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_tour_deduction_policy_tree" model="ir.ui.view">
+			<field name="name">view.tour.deduction.policy.tree</field>
+			<field name="model">tour.deduction.policy</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Deduction Policy" editable="top">
+					<field name="name" />
+					<field name="max_limit" />
+					<field name="deduction_percentage" />
+				</tree>
+			</field>
+		</record>
+
+		<menuitem id="submenu_tour_configuration_packages_type"
+			parent="bi_tour_management.submenu_tour_configuration" action="action_configuration_tour_package_type" />
+		<menuitem id="submenu_tour_configuration_packages" parent="bi_tour_management.submenu_tour_configuration"
+			action="action_configuration_tour_package" />
+		<menuitem id="submenu_tour_configuration_season" parent="bi_tour_management.submenu_tour_configuration"
+			action="action_configuration_tour_season" />
+
+		<menuitem id="submenu_tour_configuration_destination" parent="bi_tour_management.submenu_tour_configuration"
+			action="action_configuration_tour_destination" />
+
+		<menuitem id="submenu_tour_configuration_facility" parent="bi_tour_management.submenu_tour_configuration"
+			action="action_configuration_tour_facility" />
+		<menuitem id="submenu_tour_configuration_payment_policy"
+			parent="bi_tour_management.submenu_tour_configuration" action="action_configuration_tour_payment_policy" />
+		<menuitem id="submenu_tour_configuration_deduction_policy"
+			parent="bi_tour_management.submenu_tour_configuration" action="action_configuration_tour_deduction_policy" />
+
+
+	</data>
+</odoo>

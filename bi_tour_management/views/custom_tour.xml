@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="action_submenu_custom_tour_preference" model="ir.actions.act_window">
+			<field name="name">Tour Preference</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.preference</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_submenu_custom_tour_booking" model="ir.actions.act_window">
+			<field name="name">Custom Tour Booking</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">tour.booking</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="context">{'resource':'custom'}</field>
+		</record>
+
+		<record id="action_submenu_custom_approved_itinerary" model="ir.actions.act_window">
+			<field name="name">Approved Tour Itinerary</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.itinary</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('state', 'in', ['done','approve'])]</field>
+		</record>
+
+		<record id="action_submenu_custom_tour_itinerary" model="ir.actions.act_window">
+			<field name="name">Tour Itinerary</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.itinary</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_submenu_custom_transport_preference" model="ir.actions.act_window">
+			<field name="name">transport Preference</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.transport</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_submenu_custom_tour_destinations_preference"
+			model="ir.actions.act_window">
+			<field name="name">Destination Preferences</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.destination</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="action_site_line" model="ir.actions.act_window">
+			<field name="name">site.line.ids</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.sites</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="view_site_line_form" model="ir.ui.view">
+			<field name="name">site.line.view.form</field>
+			<field name="model">custom.tour.sites</field>
+			<field name="arch" type="xml">
+				<form string="Site Line">
+					<group>
+						<field name="name" />
+						<field name ="company_id"/>
+					</group>
+				</form>
+			</field>
+		</record>
+		<record id="view_custom_transport_preference_form" model="ir.ui.view">
+			<field name="name">custom.tour.transport.view.form</field>
+			<field name="model">custom.tour.transport</field>
+			<field name="arch" type="xml">
+				<form string="Transport Preference">
+					<group>
+						<field name="name" />
+						<field name="transport_type_id" domian="[('type','=','service')]"
+							context="{'default_type':'service','search_default_type':'service'}" />
+						<field name="travel_class_id" />
+						<field name ="company_id"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_custom_tour_destinations_preference_form"
+			model="ir.ui.view">
+			<field name="name">custom.tour.destinations_preference.view.form
+			</field>
+			<field name="model">custom.tour.destination</field>
+			<field name="arch" type="xml">
+				<form string="custom.tour.destination">
+					<group colspan="4" col="6">
+						<field name="destination_id" />
+						<field name="country_id" />
+						<field name="name" />
+						<field name ="company_id"/>
+					</group>
+					<notebook colspan="6">
+						<page string="Site Line Ids">
+							<group col="7" colspan="3">
+								<field name="site_line_ids" nolabel="1">
+									<tree>
+										<field name="name" />
+									</tree>
+
+								</field>
+							</group>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_custom_tour_preference_tree" model="ir.ui.view">
+			<field name="name">tour.preference.view.tree</field>
+			<field name="model">tour.preference</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Preference">
+					<field name="name" />
+					<field name="lead" />
+					<field name="current_date" />
+					<field name="adult" />
+					<field name="child" />
+					<field name="email_id" />
+					<field name="mobile" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_custom_tour_preference_form" model="ir.ui.view">
+			<field name="name">tour.preference.view.form</field>
+			<field name="model">tour.preference</field>
+			<field name="arch" type="xml">
+				<form string="Tour Preference">
+					<header>
+						<button string="Confirm" name="btn_confirm" invisible="state not in ('draft')"
+							type="object" invisible = "state not in ('draft')"/>
+						<button string="Cancel" name="" invisible="state not in ('draft')" type="object"
+							 invisible = "state not in ('draft')" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+					</header>
+					<h2><field name="name" /></h2>
+					<group colspan="4" col="6">
+						
+						<field name="current_date" readonly="state not in ('draft')" />
+						<field name="lead" domain="[('stage_id','=','New')]"
+							readonly="state not in ('draft')"/>
+						<field name="contact_name" readonly="state not in ('draft')" />
+						<field name="address" readonly="state not in ('draft')"/>
+						<field name="email_id" readonly="state not in ('draft')" />
+						<field name="mobile" readonly="state not in ('draft')" />
+						<field name="country_id" readonly="state not in ('draft')" />
+						<field name="adult" readonly="state not in ('draft')" />
+						<field name="child" readonly="state not in ('draft')" />
+						<field name="via" readonly="state not in ('draft')"/>
+						<field name="agent_id" context="{'default_agent': 1}"
+							domain="[('agent','=',True)]" invisible = "via != ('agent')" />
+					</group>
+					<separator colspan="6" string="Tour Information" />
+					<group col="7" colspan="4">
+						<field name="checkin_date" readonly="state not in ('draft')" />
+						<field name="checkout_date" readonly="state not in ('draft')" />
+						<field name="tour_low_price" readonly="state not in ('draft')" />
+						<field name="tour_high_price" nolabel="1"
+							readonly="state not in ('draft')"/>
+					</group>
+					<notebook colspan="6">
+						<page string="Destinations Preferences">
+							<group col="7" colspan="3">
+								<field name="destination_lines_ids" nolabel="1"
+									readonly="state not in ('draft')">
+									<tree>
+										<field name="destination_id" />
+										<field name="country_id" />
+										<field name="name" />
+									</tree>
+
+								</field>
+							</group>
+						</page>
+						<page string="Hotel Preferences">
+							<group col="6" colspan="6">
+								<field name="hotel_type_id"
+									readonly="state not in ('draft')" />
+								<field name="room_type_id"
+									context="{'default_type': 'service', 'default_categ_id': 5}"
+									domain="[('type','=','service'),('categ_id','=',4)]" readonly="state not in ('draft')" />
+								<field name="room_req"
+									readonly="state not in ('draft')" />
+								<field name="low_price"
+									readonly="state not in ('draft')" />
+								<field name="high_price" nolabel="1"
+									readonly="state not in ('draft')"/>
+								<field name ="company_id"/>
+							</group>
+						</page>
+						<page string="Transport Preferences">
+							<group colspan="4" col="6">
+								<field name="transport_ids" nolabel="1"
+									readonly="state not in ('draft')">
+									<tree>
+										<field name="name" />
+										<field name="product_id" />
+										<field name="travel_class_id" />
+									</tree>
+								</field>
+							</group>
+						</page>
+					</notebook>
+				</form>
+			</field>
+		</record>
+
+		<record id="view_custom_tour_iternity_tree" model="ir.ui.view">
+			<field name="name">tour.iternity.view.tree</field>
+			<field name="model">custom.tour.itinary</field>
+			<field name="arch" type="xml">
+				<tree string="Tour Itinerary">
+					<field name="name" />
+					<field name="lead" />
+					<field name="current_date" />
+					<field name="adult" />
+					<field name="child" />
+					<field name="email_id" />
+					<field name="mobile" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		<record id="view_custom_tour_itinary_form" model="ir.ui.view">
+			<field name="name">tour.itinary.view.form</field>
+			<field name="model">custom.tour.itinary</field>
+			<field name="arch" type="xml">
+				<form string="Tour Itinerary">
+					<header>
+						<button string="Confirm" name="action_confirm" invisible="state not in ('draft')"
+							type="object" readonly="state not in ('draft')" />
+						<button string="Send To Customer" name="action_sent"
+							invisible="state not in ('confirm')" type="object"
+							invisible = "state not in ('confirm')" />
+						<button string="Approved"
+							name="%(crm.action_crm_lead2opportunity_partner)d" invisible="state not in ('send_to')"
+							type="action" invisible = "state not in ('send_to')" />
+						<button string="Refuse" name="action_refuse" invisible="state not in ('send_to')"
+							type="object" invisible = "state not in ('send_to')" />
+						<button string="Create Tour" name="action_create_tour"
+							invisible="state not in ('approve')" type="object"
+							invisible = "state not in ('approve')"/>
+						<button string="Create Quotation" name="action_create_qutation"
+							invisible="state not in ('create_qutation')" type="object"
+							 />
+						<field name="state" widget="statusbar"
+							statusbar_visible="draft,confirm,send_to,approve,done" />
+					</header>
+					<group colspan="4" col="6">
+						<field name="name" select="1" />
+						<field name="tour_pref_id" select="1"
+							domain="[('state','!=','cancel')]" readonly = "state not in('draft')" />
+						<field name="tour_name" readonly = "state not in('draft')"  />
+						<field name="current_date" readonly = "state not in('draft')"  />
+						<field name="lead" domain="[('stage_id','=','New')]"
+							readonly = "state not in('draft')" />
+						<field name="contact_name" readonly = "state not in('draft')"  />
+						<field name="address" readonly = "state not in('draft')" />
+						<field name="email_id" readonly = "state not in('draft')"  />
+						<field name="mobile" readonly = "state not in('draft')"  />
+						<field name="country_id" readonly = "state not in('draft')"  />
+						<field name="adult" readonly = "state not in('draft')"  />
+						<field name="child" readonly = "state not in('draft')"  />
+						<field name="pricelist_id" readonly = "state not in('draft')" />
+						<field name="via" readonly = "state not in('draft')" />
+						<field name="agent_id" context="{'default_agent': 1}"
+							domain="[('agent','=',True)]"
+							invisible ="via != ('agent')" required = "via == ('agent')" readonly="state not in ('draft')"/>
+					</group>
+					<separator colspan="6" string="Tour Information" />
+					<group col="6" colspan="4">
+						<field name="checkin_date" readonly = "state not in('draft')"  />
+						<field name="checkout_date" readonly = "state not in('draft')"  />
+						<field name="room_req" readonly = "state not in('draft')"  />
+						<field name="payment_policy_id" readonly = "state not in('draft')"  />
+						<field name ="company_id"/>
+					</group>
+					<separator colspan="6" string="Tour Dates Details" />
+					<group col="6" colspan="4">
+						<field name="start_date" readonly = "state not in('draft')" />
+						<field name="book_date" readonly = "state not in('draft')" />
+						<field name="due_date" readonly = "state not in('draft')"  />
+						<field name="total_seat" />
+						<!-- <field name="adult_cost_price" />
+						<field name="child_cost_price" /> -->
+					</group>
+					<notebook colspan="6">
+						<page string="Tour Program">
+							<group col="7" colspan="3">
+								<field name="tour_program_ids" nolabel="1"
+									readonly = "state not in('draft')" >
+									<tree string="Tour Programme">
+										<field name="days" />
+										<field name="description" />
+										<field name="breakfast" />
+										<field name="lunch" />
+										<field name="dinner" />
+
+									</tree>
+									<form>
+										<group>
+											<group>
+												<field name="days" />
+											</group>
+											<group>
+												<field name="description" />
+											</group>
+										</group>
+										<group colspan="4" col="6">
+											<field name="breakfast" />
+											<field name="lunch" />
+											<field name="dinner" />
+										</group>
+										<group col="7" colspan="3">
+											<field name="site_ids" nolabel="1" />
+										</group>
+									</form>
+								</field>
+							</group>
+
+						</page>
+						<page string="Destinations">
+							<group col="7" colspan="3">
+								<field name="tour_destination_ids" nolabel="1"
+									readonly = "state not in('draft')" >
+									<tree string="Tour Destinations">
+										<field name="destination_id" />
+										<field name="country_id" />
+										<field name="nights" />
+										<field name="visa_chk" />
+									</tree>
+									<form>
+										<group>
+											<group>
+												<field name="destination_id" />
+											</group>
+											<group>
+												<field name="country_id" />
+											</group>
+											<group>
+												<field name="nights" />
+											</group>
+											<group>
+												<field name="visa_chk" />
+											</group>
+										</group>
+									</form>
+								</field>
+							</group>
+						</page>
+						<page string="Cost Include">
+							<group col="7" colspan="3">
+								<field name="itinary_cost_include_facility_lines" nolabel="1"
+									readonly = "state not in('draft')" >
+									<tree string="Tour facilities" editable="top">
+										<field name="facility_id" />
+										<field name="name" />
+
+									</tree>
+
+								</field>
+							</group>
+						</page>
+						<page string="Cost Exclude">
+							<group col="7" colspan="3">
+								<field name="itinary_cost_exclude_facility_lines" nolabel="1"
+									readonly = "state not in('draft')" >
+									<tree string="Tour exclude facilities" editable="top">
+										<field name="facility_id" />
+										<field name="name" />
+
+									</tree>
+
+								</field>
+							</group>
+						</page>
+						<page string="Site Cost">
+							<group col="7" colspan="3">
+								<field name="sites_costing_ids" nolabel="1">
+									<tree editable="top">
+										<field name="name" />
+										<field name="new_cost_price" />
+										<field name="new_sale_price" />
+										<field name="total_cost_price" />
+										<field name="total_sale_price" />
+									</tree>
+								</field>
+							</group>
+						</page>
+						<page string="Visa Cost">
+							<group col="7" colspan="3">
+								<field name="visa_costing_ids" nolabel="1">
+									<tree>
+										<field name="country_id" />
+										<field name="name" />
+										<field name="visa_type" />
+										<field name="cost_price" />
+										<field name="sale_price" />
+										<field name="total_person" />
+										<field name="total_cost_price" />
+										<field name="total_sale_price" />
+
+									</tree>
+								</field>
+							</group>
+						</page>
+						<page string="Other Services">
+							<group col="7" colspan="3">
+								<field name="service_ids" nolabel="1">
+									<tree>
+										<field name="product_id" />
+										<field name="sale_price" />
+										<field name="price_unit" />
+										<field name="product_uom_qty" />
+										<field name="product_uom_id" />
+										<field name="discount" />
+										<field name="price_subtotal_cost" />
+										<field name="price_subtotal" />
+
+									</tree>
+									<form>
+										<group colspan="2" col="4">
+											<field name="product_id" />
+											<field name="price_unit" />
+											<field name="sale_price" />
+											<field name="product_uom_qty" />
+											<field name="product_uom_id" />
+											<field name="price_subtotal_cost" />
+											<field name="price_subtotal" />
+											<field name="discount" />
+											<field name="pur_bol" />
+										</group>
+										<group colspan="4" col="6">
+											<separator string="Sale Taxes" />
+											<separator string="Purchase Taxes" />
+										</group>
+
+										<group colspan="4" col="6">
+											<field name="sale_tax_ids" widget="many2many_tags"/>
+
+											<field name="pur_tax_ids" widget="many2many_tags"/>
+
+										</group>
+
+
+									</form>
+								</field>
+							</group>
+						</page>
+						<page string="Hotel Planer">
+							<group col="7" colspan="3">
+								<field name="hotel_planer_ids" context="{'parent_id':active_id}"
+									nolabel="1" readonly = "state not in('draft')" >
+									<tree>
+										<field name="name" />
+										<field name="destination_id" />
+										<field name="hotel_type_id" />
+										<field name="hotel_id" />
+										<field name="room_type_id" />
+										<field name="room_req" />
+										<field name="days" />
+										<field name="supplier_price" />
+										<field name="customer_price" />
+										<field name="supplier_price_total" />
+										<field name="customer_price_total" />
+
+									</tree>
+									<form>
+										<group colspan="2" col="4">
+											<field name="name" />
+											<field name="destination_id" />
+											<field name="hotel_id" />
+											<field name="hotel_type_id" />
+											<field name="room_type_id" />
+											<field name="room_req" />
+											<field name="days" />
+											<field name="supplier_price" />
+											<field name="customer_price" />
+											<field name="supplier_price_total" />
+											<field name="customer_price_total" />
+											<field name="pur_bol" />
+
+										</group>
+										<group colspan="4" col="6">
+											<separator string="Sale Taxes" />
+											<separator string="Purchase Taxes" />
+										</group>
+
+										<group colspan="4" col="6">
+											<field name="sale_tax_ids"  widget="many2many_tags"/>
+
+											<field name="pur_tax_ids" widget="many2many_tags"/>
+
+										</group>
+
+
+
+									</form>
+								</field>
+							</group>
+						</page>
+						<page string="Travel Planer">
+							<group col="7" colspan="3">
+								<field name="travel_planer_ids" context="{'parent_id':active_id}"
+									nolabel="1" readonly = "state not in('draft')" >
+									<tree>
+										<field name="name" />
+										<field name="transport_id" />
+										<field name="date" />
+										<field name="transport_carrier_id" />
+										<field name="transport_type_id" />
+										<field name="travel_class_id" />
+										<field name="from_dest_id" />
+										<field name="to_dest_id" />
+										<field name="adult" />
+										<field name="child" />
+										<field name="cost_price_adult" />
+										<field name="cost_price_child" />
+										<field name="sale_price_adult" />
+										<field name="sale_price_child" />
+										<field name="total_cost_price_adult" />
+										<field name="total_cost_price_child" />
+										<field name="total_sale_price_adult" />
+										<field name="total_sale_price_child" />
+
+									</tree>
+									<form>
+										<group colspan="2" col="4">
+											<field name="name" />
+											<field name="transport_id" />
+											<field name="date" />
+											<field name="transport_carrier_id" />
+											<field name="transport_type_id" />
+											<field name="travel_class_id" />
+											<field name="from_dest_id" />
+											<field name="to_dest_id" />
+											<field name="adult" />
+											<field name="child" />
+											<field name="cost_price_adult" />
+											<field name="cost_price_child" />
+											<field name="sale_price_adult" />
+											<field name="sale_price_child" />
+											<field name="total_cost_price_adult" />
+											<field name="total_cost_price_child" />
+											<field name="total_sale_price_adult" />
+											<field name="total_sale_price_child" />
+											<field name="pur_bol" />
+										</group>
+										<group colspan="4" col="6">
+											<separator string="Sale Taxes" />
+											<separator string="Purchase Taxes" />
+										</group>
+
+										<group colspan="4" col="6">
+											<field name="sale_tax_ids"  widget="many2many_tags"/>
+
+											<field name="pur_tax_ids" widget="many2many_tags"/>
+
+										</group>
+									</form>
+
+								</field>
+							</group>
+						</page>
+					</notebook>
+					<!-- <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total"> -->
+					<!-- <field name="sale_untax_amt" widget='monetary' options="{'currency_field': 
+						'currency_id'}"/> -->
+					<!-- <field name="sale_tax_amt" widget='monetary' options="{'currency_field': 
+						'currency_id'}"/> -->
+					<!-- <div class="oe_subtotal_footer_separator oe_inline o_td_label"> -->
+					<!-- <label for="total" /> -->
+					<!-- <button name="button_dummy" -->
+					<!-- states="draft,sent" string="(update)" type="object" class="oe_edit_only 
+						oe_link"/> -->
+					<!-- </div> -->
+					<!-- <field name="sale_total_amt" nolabel="1" class="oe_subtotal_footer_separator" 
+						widget='monetary' options="{'currency_field': 'currency_id'}"/> -->
+					<!-- </group> -->
+					<group class="oe_subtotal_footer oe_left" colspan="2"
+						name="sale_total">
+						<field name="sale_untax_amt" widget="monetary"
+							options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+						<field name="sale_tax_amt" widget="monetary"
+							options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+						<div class="oe_subtotal_footer_separator oe_inline">
+							<label for="sale_total_amt" />
+							<button name="compute" invisible="state not in ('draft')" string="(Compute)"
+								type="object" class="oe_edit_only oe_link"
+								modifiers="{'invisible': [['state', 'not in', ['draft']]]}" />
+						</div>
+						<field name="sale_total_amt" nolabel="1"
+							class="oe_subtotal_footer_separator" widget="monetary"
+							options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+						<field name="pur_untax_amt" widget="monetary"
+							options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+						<field name="pur_tax_amt" widget="monetary"
+							options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+						<div class="oe_subtotal_footer_separator oe_inline">
+							<label for="pur_total_amt" />
+						</div>
+						<field name="pur_total_amt" nolabel="1"
+							class="oe_subtotal_footer_separator" widget="monetary"
+							options="{'currency_field': 'currency_id'}" modifiers="{'readonly': true}" />
+					</group>
+				</form>
+			</field>
+		</record>
+
+
+		<menuitem id="submenu_custom_tour_preference" parent="bi_tour_management.submenu_custom_tour"
+			action="action_submenu_custom_tour_preference" />
+
+
+		<menuitem id="submenu_custom_tour_itinerary" parent="bi_tour_management.submenu_custom_tour"
+			action="action_submenu_custom_tour_itinerary" />
+
+		<menuitem id="submenu_custom_approved_itinerary" parent="bi_tour_management.submenu_custom_tour"
+			action="action_submenu_custom_approved_itinerary" />
+
+		<menuitem id="submenu_custom_tour_booking" parent="bi_tour_management.submenu_custom_tour"
+			action="action_submenu_custom_tour_booking" />
+
+
+	</data>
+</odoo>

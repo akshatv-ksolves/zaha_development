@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_tour_itinerary_layout">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br/>
+                    <div class="oe_structure"/>
+
+                    <h3 style="text-align : center;">Tour Itinerary Report</h3><br/>
+                    <div class="row mt32 mb32">
+                		<div>
+                			<table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Itinerary Name:</strong>
+                                        <span t-field="o.name"/>
+                                    </td>
+                                    <td>
+                                        <strong>Tour Name:</strong>
+                                        <span t-field="o.product_itinary_id"/>
+                                    </td>                               
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Customer Inquiry No.:</strong>
+                                        <span t-field="o.tour_preference_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Email Id:</strong>
+                                        <span t-field="o.email_id"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Lead Id:</strong>
+                                        <span t-field="o.lead_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Mobile No.:</strong>
+                                        <span t-field="o.mobile"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Address:</strong>
+                                        <span t-field="o.street"/>
+                                        <span t-field="o.street2"/>
+                               	 		<span t-field="o.city"/>
+                                    	<span t-field="o.state"/>
+                                    	<span t-field="o.zip"/>
+                                    	<span t-field="o.country_id"/>
+                                    </td>
+                                    <td>
+                                    </td>  
+            					</tr>
+                			</table>
+            			<br/>
+                        <div>
+                            <h3><strong>Tour Informaion</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Prefer Start Date:</strong>
+                                        <span t-field="o.checkin_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Payment Policy:</strong>
+                                        <span t-field="o.tour_payment_policy_id"/>
+                                    </td>  
+                                    <td>
+                                        <strong>Adult:</strong>
+                                        <span t-field="o.adult"/>
+                                    </td>              
+                                                  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Prefer End Date:</strong>
+                                        <span t-field="o.checkout_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Season:</strong>
+                                        <span t-field="o.season_id"/>
+                                    </td>
+                                    <td>
+                                    	<strong>Child:</strong>
+                                        <span t-field="o.child"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Room Required:</strong>
+                                        <span t-field="o.room_required"/>
+                                    </td>
+                                    <td>
+                                        <strong>Currency:</strong>
+                                        <span t-field="o.product_pricelist_id"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                			</table>
+            			<br/>
+                        <div>
+                            <h3><strong>Tour Dates Details</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Start Date:</strong>
+                                        <span t-field="o.start_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Payment Due Date:</strong>
+                                        <span t-field="o.due_date"/>
+                                    </td>  
+                                    <td>
+                                        <strong>sale price/Person(Adult):</strong>
+    <!--                                    <span t-field="o.adult_cost_price"/>-->
+                                    </td>                       
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Last Date for booking:</strong>
+                                        <span t-field="o.book_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Total Seats:</strong>
+                                        <span t-field="o.total_seat"/>
+                                    </td>
+                                    <td>
+                                    	<strong>sale price/Person(Child):</strong>
+    <!--                                    <span t-field="o.child_cost_price"/>-->
+                                    </td>
+                                </tr>                     
+                			</table>
+            			<br/>
+            			<div>
+                            <h3><strong>Tour Program</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Tour Code:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Days:</strong>
+                                    </td>  
+                                    <td>
+                                        <strong>Description:</strong>
+                                    </td> 
+                                    <td>
+                                        <strong>Breakfast:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Lunch:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Dinner:</strong>
+                                    </td>           
+                                    <td>
+                                        <strong>Sale Amount:</strong>
+                                    </td>                                               
+                                </tr>
+                                <t t-foreach="o.tour_program_ids" t-as="a">
+                                <tr>
+                                    <td>
+                                        <span t-field="a.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.days"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.description"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.breakfast"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.lunch"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.dinner"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.expected_line_sale"/>
+                                    </td>
+                                </tr> 
+                                </t>                    
+                			</table>
+                			<br/>
+                			<table class="table table-condensed">
+                                <tbody class="sale_tbody">
+                                    <tr>
+                                    	<td width="10%">
+                                        </td>
+                                        <td width="10%">
+                                            <strong>Sale Untax Amount:</strong>
+                                            <span t-field="o.sale_untax_amt"/>
+                                        </td>
+
+                                        <td width="10%">
+                                           <strong>Sale Taxes:</strong>
+                                            <span t-field="o.sale_tax_amt"/>
+                                        </td>
+                                        <td width="10%">
+                                           <strong>Sale Total Amount:</strong>
+                                            <span t-field="o.sale_total_amt"/>
+                                        </td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                		</div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        <template id="tour_itinerary_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="bi_tour_management.report_tour_itinerary_layout" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+

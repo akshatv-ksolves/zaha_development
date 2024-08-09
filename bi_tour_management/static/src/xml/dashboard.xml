@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template>
+    <!-- <t t-name="CustomDashBoard">
+        <div class="oh_dashboards m-4">
+            <div class="container-fluid o_dashboard">
+                <h1 style="margin: 5px;">Tour Dashboard</h1>
+                <t t-call="TourDashDoard" />
+            </div>
+        </div>
+    </t> -->
+    <t t-name="TourDashDoard">
+        <div class="oh_dashboards m-4">
+            <div class="container-fluid o_dashboard">
+                <h1 style="margin: 5px;">Tour Dashboard</h1>
+                <!-- <t t-call="TourDashDoard" /> -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box draft_inquiry bg-blue" t-on-click= "draft_inquiry">
+                    <div class="inner">
+                        <h3> <t class="m-3" t-esc="state.total_draft_inquiry"/> </h3>
+                        <h4> Draft Tour Inquiry </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box confirmed_inquiry bg-green" t-on-click= "confirmed_inquiry">
+                    <div class="inner">
+                        <h3> <t class="m-3" t-esc="state.total_confirmed_inquiary"/> </h3>
+                        <h4> Confirmed Tour Inquiry </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box confimed_booking bg-primary" t-on-click= "confimed_booking">
+                    <div class="inner">
+                        <h3> <t class="m-3" t-esc="state.total_tour_booking"/> </h3>
+                        <h4> Confirmed Tour Booking </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box inprogress_booking bg-warning" t-on-click= "inprogress_booking">
+                    <div class="inner">
+                        <h3> <t class="m-3" t-esc="state.total_tour_inprogress_booking"/> </h3>
+                        <h4> In Progress Tour Booking </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3 t-if="state.total_bookings_of_week">Total Weekly Booking is <t t-esc="state.total_bookings_of_week"/></h3>
+                            </div>
+                            <div class="col">
+                                <h4 style="float:right;">Weekly Booking</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body mt-3" id="tour_weekly_booking_report">
+                        <div class="row">
+                            <div class="col-md-12 weekly_booking">
+                                <div id="weekly_booking_chart">
+                                    <canvas class="weekly_booking_chart_canvas" width="250" height="100"> </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3 t-if="state.total_bookings_of_month" >Total Monthly Booking is <t t-esc="state.total_bookings_of_month"/></h3>
+                            </div>
+                            <div class="col">
+                                <h4 style="float:right;">Monthly Booking</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body mt-3" id="tour_monthly_booking_report">
+                        <div class="row">
+                            <div class="col-md-12 monthly_booking">
+                                <div id="monthly_booking_chart">
+                                    <canvas class="monthly_booking_chart_canvas" width="250" height="100"> </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+
+<!-- <template>
+    <t t-name="CustomDashBoard">
+        <div class="oh_dashboards m-4">
+            <div class="container-fluid o_dashboard">
+                <h1 style="margin: 5px;">Tour Dashboard</h1>
+            </div>
+        </div>
+    </t>
+    <t t-name="TourDashDoard">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box draft_inquiry bg-blue" t-on-click= "draft_inquiry">
+                    <div class="inner">
+                        <h3> <t class="m-3"/> </h3>
+                        <h4> Draft Tour Inquiry </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box confirmed_inquiry bg-green" t-on-click= "confirmed_inquiry">
+                    <div class="inner">
+                        <h3> <t class="m-3" /> </h3>
+                        <h4> Confirmed Tour Inquiry </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box confimed_booking bg-primary" t-on-click= "confimed_booking">
+                    <div class="inner">
+                        <h3> <t class="m-3"/> </h3>
+                        <h4> Confirmed Tour Booking </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box inprogress_booking bg-warning" t-on-click= "inprogress_booking">
+                    <div class="inner">
+                        <h3> <t class="m-3"/> </h3>
+                        <h4> In Progress Tour Booking </h4>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-bars"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3 >Total Weekly Booking is </h3>
+                            </div>
+                            <div class="col">
+                                <h4 style="float:right;">Weekly Booking</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body mt-3" id="tour_weekly_booking_report">
+                        <div class="row">
+                            <div class="col-md-12 weekly_booking">
+                                <div id="weekly_booking_chart">
+                                    <canvas class="weekly_booking_chart_canvas" width="250" height="100"> </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <h3  >Total Monthly Booking is </h3>
+                            </div>
+                            <div class="col">
+                                <h4 style="float:right;">Monthly Booking</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body mt-3" id="tour_monthly_booking_report">
+                        <div class="row">
+                            <div class="col-md-12 monthly_booking">
+                                <div id="monthly_booking_chart">
+                                    <canvas class="monthly_booking_chart_canvas" width="250" height="100"> </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template> -->

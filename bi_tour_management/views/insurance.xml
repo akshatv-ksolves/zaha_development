@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="action_submenu_insurance_type" model="ir.actions.act_window">
+			<field name="name">Insurance Type</field>
+			<field name="res_model">insurance.type</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="action_submenu_insurance_policy" model="ir.actions.act_window">
+			<field name="name">Insurance Policy</field>
+			<field name="res_model">insurance.policy</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="view_insurance_type_tree" model="ir.ui.view">
+			<field name="name">insurance.type.tree</field>
+			<field name="model">insurance.type</field>
+			<field name="arch" type="xml">
+				<tree string="Insurance Type" editable="top">
+					<field name="name" />
+					<field name="code" />
+					<field name="adult_cost" />
+					<field name="child_cost" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_insurance_policy_tree" model="ir.ui.view">
+			<field name="name">insurance.policy.tree</field>
+			<field name="model">insurance.policy</field>
+			<field name="arch" type="xml">
+				<tree string="Insurance Policy">
+					<!-- <field name="insurance_type_id" /> -->
+					<field name="name" />
+					<field name="insurance_cost_for_adults" />
+					<field name="insurance_cost_for_childs" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_insurance_policy_form" model="ir.ui.view">
+			<field name="name">insurance.policy.form</field>
+			<field name="model">insurance.policy</field>
+			<field name="arch" type="xml">
+				<form string="Insurance Policy">
+					<header>
+						<button string="Confirm" name="button_confirm" type="object"
+							invisible="state not in ('draft')" modifiers="{'invisible': [['state', 'not in', ['draft']]]}" />
+						<field name="state" widget="statusbar" statusbar_visible="draft,confirm" />
+					</header>
+					<group colspan="4" col="6">
+						<!-- <field name="insurance_type_id" /> -->
+						<field name="name" />
+						<field name="insurance_cost_for_adults" />
+						<field name="insurance_cost_for_childs" />
+						<field name ="company_id"/>
+					</group>
+					<!-- <separator colspan="6" /> -->
+					<!-- <notebook colspan="4">
+						<page string="Coverage Information">
+							<group col="7" colspan="3">
+								<field name="coverage_line_ids" nolabel="1">
+									<tree editable="top">
+										<field name="product_id" />
+										<field name="benifit_cost" />
+									</tree>
+								</field>
+							</group>
+						</page>
+					</notebook> -->
+				</form>
+			</field>
+		</record>
+
+		<menuitem id="submenu_insurance_type" parent="bi_tour_management.submenu_insurance"
+			action="action_submenu_insurance_type" />
+
+		<menuitem id="submenu_insurance_policy" parent="bi_tour_management.submenu_insurance"
+			action="action_submenu_insurance_policy" />
+
+
+	</data>
+</odoo>

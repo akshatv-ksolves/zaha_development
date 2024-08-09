@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="bi_view_custom_tour_sites_form" model="ir.ui.view">
+			<field name="name">bi.view.custom.tour.sites.form</field>
+			<field name="model">custom.tour.sites</field>
+			<field name="arch" type="xml">
+				<form string="Site Line">
+					<group>
+						<field name="name" />
+						<field name ="company_id"/>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_custom_tour_sites" model="ir.actions.act_window">
+			<field name="name">Custom Tour</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">custom.tour.sites</field>
+			<field name="binding_view_types">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+	</data>
+</odoo>

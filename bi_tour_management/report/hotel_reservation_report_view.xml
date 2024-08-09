@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_hotel_reservation_layout">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br/>
+                    <div class="oe_structure"/>
+                    <h3 style="text-align : center;">Hotel Reservation Report</h3><br/>
+                    <div class="row mt32 mb32">
+                		<div>
+                			<table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Registration Id:</strong>
+                                        <span t-field="o.name"/>
+                                    </td>
+                                    <td>
+                                        <strong>Date:</strong>
+                                        <span t-field="o.current_date"/>
+                                    </td>                               
+                                
+                                    <td>
+                                        <strong>Mobile No.:</strong>
+                                        <span t-field="o.mobile"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Customer:</strong>
+                                        <span t-field="o.customer_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Email Id:</strong>
+                                        <span t-field="o.email_id"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Adult:</strong>
+                                        <span t-field="o.adult"/>
+                                    </td>
+                                    <td>
+                                        <strong>Child:</strong>
+                                        <span t-field="o.child"/>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                			</table>
+            			<br/>
+                        <div>
+                            <h3><strong>Hotel Informaion</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Hotel Type:</strong>
+                                        <span t-field="o.hotel_type_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Hotel:</strong>
+                                        <span t-field="o.hotel_id"/>
+                                    </td>  
+                                    <td>
+                                        <strong>Room type:</strong>
+                                        <span t-field="o.room_type_id"/>
+                                    </td>              
+                                                  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Cost Price:</strong>
+                                        <span t-field="o.room_rent"/>
+                                    </td>
+                                    <td>
+                                        <strong>Sale Price:</strong>
+                                        <span t-field="o.hotel_rent"/>
+                                    </td>
+                                    <td>
+                                        <strong>Check In Date:</strong>
+                                        <span t-field="o.checkin_date"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Check Out Date:</strong>
+                                        <span t-field="o.checkout_date"/>
+                                    </td>
+                                    <td>
+                                        <strong>Required Room:</strong>
+                                        <span t-field="o.room_required"/>
+                                    </td>
+                                    <td>
+                                        <strong>No. of Days:</strong>
+                                        <span t-field="o.no_of_days"/>
+                                    </td>
+                                </tr>
+                                
+                			</table>
+            			<br/>
+
+                        <br/>
+                        <div>
+                            <h3><strong>Tour Informaion</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+                                <tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+                                    <td>
+                                        <strong>Tour:</strong>
+                                        <span t-field="o.tour_id"/>
+                                    </td>
+                                    <td>
+                                        <strong>Tour Start Date:</strong>
+                                        <span t-field="o.tour_date_id"/>
+                                    </td>  
+                                    <td>
+                                        <strong>Tour Booking ref:</strong>
+                                        <span t-field="o.tour_book_id"/>
+                                    </td>   
+                                    <td>
+                                        <strong>Tour Destination:</strong>
+                                        <span t-field="o.destination_id"/>
+                                    </td>            
+                                </tr>
+                                
+                            </table>
+                        <br/>
+
+                        <div>
+                            <h3><strong>Customer Information</strong></h3>
+                        </div>
+                        <table style="border-collapse: collapse;width: 100%;" class="table table-condensed">
+            					<tr style="padding: 8px;text-align: left;border-top: 1px solid #ddd;height:50%;">
+            						<td>
+                                        <strong>Person</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Age</strong>
+                                    </td>  
+                                    <td>
+                                        <strong>Gender</strong>
+                                    </td>    
+                                    <td>
+                                        <strong>Adult/Child</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Room No.</strong>
+                                    </td>                      
+                                </tr>
+                                <t t-foreach="o.tour_customer_ids" t-as="a">
+                                <tr>
+                                    <td>
+                                        <span t-field="a.partner_id"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.gender"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.type"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="a.room_no"/>
+                                    </td>
+                                </tr>
+                                </t>                   
+                			</table>
+            			<br/>
+                		</div>
+                    </div>
+                </div>
+            </t>
+        </template>
+        
+        <template id="hotel_reservation_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="bi_tour_management.report_hotel_reservation_layout" />
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
+
