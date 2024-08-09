@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="user_detail_form_template" name="Lead Enquiry Form">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1 class="my-4">Booking Details</h1>
+                <form action="/my/booking/submit" method="POST" id="ks_enquiry_form">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                    <div class="form-group">
+                        <label for="hotel_name_id">Hotel</label>
+                        <select class="form-control" id="hotel_name_id"
+                                name="hotel_name_id">
+                            <option value="" selected="selected">--Select Hotel Name--</option>
+                            <t t-foreach="hotel_name_lines" t-as="hotel">
+                                <option t-att-value="hotel.id">
+                                    <t t-esc="hotel.name"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="clientName">Name of Client</label>
+                        <input type="text" class="form-control form-required" id="clientName" name="clientName"
+                               required="True"/>
+                    </div>
+                    <hr/>
+                    <h4>Room Details</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="room_type">Room Type</label>
+                                <select class="form-control" id="room_type"
+                                        name="room_type">
+                                    <option value="" selected="selected">--Select Room Type--</option>
+                                    <t t-foreach="room_lines" t-as="room">
+                                        <option t-att-value="room.id">
+                                            <t t-esc="room.name"/>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="arrivalDateBooking">Arrival Date</label>
+                                <input type="date" class="form-control" id="arrivalDateBooking"
+                                       name="arrivalDateBooking" required="True"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group ">
+                                <label for="departureDateBooking">Departure Date</label>
+                                <input type="date" class="form-control" id="departureDateBooking"
+                                       name="departureDateBooking" required="True"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Not defined</label>
+                                <input type="text" class="form-control" id="" name=""/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="checkIn">Check-in</label>
+                                <input type="text" class="form-control" id="checkIn" name="checkIn"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="checkOut">Check-out</label>
+                                <input type="text" class="form-control" id="checkOut" name="checkOut"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="numRooms">Number of Rooms</label>
+                                <input type="number" class="form-control" id="numRooms" name="numRooms"/>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="adultsBooking">Adults</label>
+                                        <input type="number" class="form-control" id="adultsBooking"
+                                               name="adultsBooking"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="childBooking">Children</label>
+                                        <input type="number" class="form-control" id="childBooking"
+                                               name="childBooking"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="infantsBooking">Infants</label>
+                                        <input type="number" class="form-control" id="infantsBooking"
+                                               name="infantsBooking"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr/>
+                    <h4>Flight Details</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="arrivalFlight">Arrival Flight</label>
+                                <input type="text" class="form-control" id="arrivalFlight" name="arrivalFlight"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="departureFlight">Departure Flight</label>
+                                <input type="text" class="form-control" id="departureFlight" name="departureFlight"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group">
+                        <button type="submit" id="submit_booking_button" class="btn btn-primary col-md-4">Submit
+                        </button>
+                    </div>
+                    <br/>
+                </form>
+            </div>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script type="text/javascript" src="/ks_tour_management/static/src/js/ks_form_validation.js"/>
+
+        </t>
+    </template>
+
+</odoo>

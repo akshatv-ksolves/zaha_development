@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="product_template_tree_view_inherit" model="ir.ui.view">
+        <field name="name">product.template.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <!-- Add your custom fields here -->
+            </xpath>
+        </field>
+    </record>
+
+    <record id="tour_booking_view" model="ir.ui.view">
+        <field name="name">Tour Booking Inherit</field>
+        <field name="model">tour.booking</field>
+        <field name="inherit_id" ref="bi_tour_management.bi_view_tour_booking_form"/>
+        <field name="arch" type="xml">
+            <!--            <xpath expr="//header" position="inside">-->
+            <!--                <button name="book_hotel" type="object" string="Book Hotel" class="btn-primary" invisible="[]"/>-->
+            <div class="oe_button_box" name="button_box">
+                <button type="object" name="book_hotel" class="oe_stat_button" icon="fa-navicon"
+                        string="Book Hotel" invisible="state != 'done' ">
+                </button>
+            </div>
+            <!--            </xpath>-->
+
+            <xpath expr="//header/button[@name='cancel_tour_book']" position="after">
+                <button name="trip_confirm_mail_action" type="object" string="Send Confirmation Email"
+                        class="btn-primary"
+                        invisible="state!= 'confirm'"/>
+            </xpath>
+
+            <!--    Removes hotel details page from tour booking        -->
+            <!--            <xpath expr="//notebook/page[8]" position="replace"/>-->
+
+            <xpath expr="//field[@name='tour_program_book_ids']/tree/field[@name='name']" position="after">
+                <field name="hotel_type_id"/>
+                <field name="room_type_id"/>
+            </xpath>
+            <xpath expr="//field[@name='tour_program_book_ids']/form/group/group/field[@name='name']" position="after">
+                <field name="hotel_type_id"/>
+                <field name="room_type_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

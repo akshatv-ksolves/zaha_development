@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access.crm.lead.child.age,access_crm_lead_child_age,ks_tour_management.model_crm_lead_child_age,base.group_user,1,1,1,1
+access.crm.lead.infant.age,access_crm_lead_infant_age,ks_tour_management.model_crm_lead_infant_age,base.group_user,1,1,1,1
+access.seasonal.offer,access_seasonal_offer,ks_tour_management.model_seasonal_offer,base.group_user,1,1,1,1
+access.product.rate,access_product_rate,ks_tour_management.model_product_rate,base.group_user,1,1,1,1
+access.extra.cost,access_extra_cost,ks_tour_management.model_extra_cost,base.group_user,1,1,1,1

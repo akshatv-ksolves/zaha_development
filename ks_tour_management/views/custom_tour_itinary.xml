@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="custom_tour_itinary_view" model="ir.ui.view">
+        <field name="name">Tour Booking Inherit</field>
+        <field name="model">custom.tour.itinary</field>
+        <field name="inherit_id" ref="bi_tour_management.bi_view_custom_tour_iternity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_confirm']" position="after">
+                <button name="send_quotation_mail_action" type="object" string="Email Quotation" class="btn-primary"
+                        invisible="state!= 'in_process'"/>
+            </xpath>
+
+<!--    Removes hotel details page from tour iternary        -->
+<!--            <xpath expr="//notebook/page[7]" position="replace"/>-->
+
+            <xpath expr="//field[@name='tour_program_ids']/tree/field[@name='name']" position="after">
+                <field name="hotel_type_id"/>
+                <field name="room_type_id"/>
+            </xpath>
+            <xpath expr="//field[@name='tour_program_ids']/form/group/group/field[@name='name']" position="after">
+                <field name="hotel_type_id"/>
+                <field name="room_type_id"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

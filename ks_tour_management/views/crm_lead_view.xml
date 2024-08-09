@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="crm_lead_inherited_view" model="ir.ui.view">
+        <field name="name">crm.lead.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="before">
+                <group>
+                    <group>
+                        <field name="room_type"/>
+                        <field name="no_of_rooms"/>
+                        <field name="adult_count"/>
+                    </group>
+                    <group>
+                        <field name="arrival_date"/>
+                        <field name="departure_date"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//notebook/page[@name='extra']" position="after">
+                <page string="Children Details" name="children_details">
+                    <field name="children_ages">
+                        <tree editable="bottom">
+                            <field name="age_group"/>
+                            <field name="child_count"/>
+                            <field name="age"/>
+                        </tree>
+                    </field>
+                </page>
+                <page string="Infant Details" name="infant_details">
+                    <field name="infants_ages">
+                        <tree editable="bottom">
+                            <field name="age_group"/>
+                            <field name="infant_count"/>
+                            <field name="age"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
