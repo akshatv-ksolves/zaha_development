@@ -156,8 +156,3 @@ class TourHotelReservation(models.Model):
     #     self.total_amt = self.untax_amt + self.tax_amt
     #     self.hotel_invoice_amt = self.room_rent * self.no_of_days * self.room_required
 
-
-# class PricelistItem(models.Model):
-#     _inherit = "product.pricelist.item"
-#
-#     hotel_id = fields.Many2one('res.partner', 'Hotel', required=True, domain=[('is_hotel', '=', True)])
